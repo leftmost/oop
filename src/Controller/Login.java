@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
 import Model.Database.DB;
@@ -61,18 +62,24 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username=request.getParameter("username");
+		String password=request.getParameter("password");
+		
+		System.out.println(username);
 		
 		UtenteDAOint utentei=new UtenteDAO();
 		
 		
 		try {
-			utentei.findUserbyUsername("ok");
+			
+			Utente utente= utentei.findUserbyUsername(username);
+			System.out.println(utente);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
-			
+		
 		
 		
 	}
