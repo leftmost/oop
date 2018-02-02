@@ -7,18 +7,14 @@ package Model;
 public class Utente
 {
 	private String username;
-	
 	private String email;
-	
 	private String password;
-	
 	private String nome;
-	
 	private String cognome;
-	
 	private String tipologia;
+	private Timeline timeline;
 
-	public Utente(String username, String email, String password, String nome, String cognome, String tipologia) {
+	public Utente(String username, String email, String password, String nome, String cognome, String tipologia){
 		this.username = username;
 		this.email = email;
 		this.password = password;
@@ -75,16 +71,18 @@ public class Utente
 		this.tipologia = tipologia;
 	}
 	
-	
-	 
-	 @Override
-	 public String toString(){
-	    return this.getNome() + " " + this.getCognome() + " ," + this.getUsername();
-	 }
-	  
-	 
+	public void setTimeline(Timeline timeline) {
+		this.timeline = timeline;
+	}
+	   
 	 
 	  @Override
+	public String toString() {
+		return "Utente [username=" + username + ", email=" + email + ", password=" + password + ", nome=" + nome
+				+ ", cognome=" + cognome + ", tipologia=" + tipologia + ", timeline=" + timeline + "]";
+	}
+
+	@Override
 	  public boolean equals(Object obj){
 	    Utente utente;
 	    if( obj instanceof Utente )

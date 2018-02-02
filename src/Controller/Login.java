@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
@@ -68,8 +69,8 @@ public class Login extends HttpServlet {
 
 		// interfaccia DAO
 		UtenteDAOint utentei=new UtenteDAO();
-
 		try {
+			
 			//crea utente dalla ricerca
 			Utente utente= utentei.findUserbyUsername(username);
 			//controllo esistenza utente
@@ -80,9 +81,11 @@ public class Login extends HttpServlet {
 				ServletContext sc = request.getSession().getServletContext();
 				RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
 				rd.forward(request, response);
+				return;
 			}
+			
 			//controllo correttezza password
-			else if(utente.getPassword()!=password){
+			if(!password.equals(utente.getPassword())){
 				//set username corretto
 				request.setAttribute("UserInsert",username);
 				//set errore password
@@ -91,9 +94,13 @@ public class Login extends HttpServlet {
 				ServletContext sc = request.getSession().getServletContext();
 				RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
 				rd.forward(request, response);
-				//ricarica login.jsp
+				return;
 			}
-
+			//Inizio sessione
+			HttpSession session = request.getSession();
+			session.setAttribute("login", utente);
+			//redirect alla home
+			response.sendRedirect("/oop17/Home");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
