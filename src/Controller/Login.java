@@ -97,8 +97,10 @@ public class Login extends HttpServlet {
 				return;
 			}
 			//Inizio sessione
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(true);
+			System.out.println(session);
 			session.setAttribute("login", utente);
+			System.out.println(utente);
 			//redirect alla home
 			response.sendRedirect("/oop17/Home");
 
