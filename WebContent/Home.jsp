@@ -52,42 +52,25 @@
 		</form>
 		<ul class="nav menu">
 			<li class="active">
-				<a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a>
+				<a href="/oop/Home"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a>
 			</li>
 			<li>
-				<a href="widgets.html"><em class="fa fa-calendar">&nbsp;</em> Widgets</a>
+				<a href="/oop/Giochi"><em class="fa fa-play-circle">&nbsp;</em> Giochi</a>
 			</li>
 			<li>
-				<a href="charts.html"><em class="fa fa-bar-chart">&nbsp;</em>Charts</a>
+				<a href="/oop/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
 			</li>
 			<li>
-				<a href="elements.html"><em class="fa fa-toggle-off">&nbsp;</em>UI Elements</a>
+				<a href="/oop/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
 			<li>
-				<a href="panels.html"><em class="fa fa-clone">&nbsp;</em>Alerts &amp; Panels</a>
-			</li>
-			<li class="parent ">
-				<a data-toggle="collapse" href="#sub-item-1">
-					<em class="fa fa-navicon">&nbsp;</em> 
-					Multilevel 
-					<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
-						<em class="fa fa-plus"></em>
-					</span>
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="#"> <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 1</a>
-					</li>
-					<li>
-						<a class="" href="#"> <span class="fa fa-arrow-right">&nbsp;</span>Sub Item 2</a>
-					</li>
-					<li>
-						<a class="" href="#"> <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 3</a>
-					</li>
-				</ul>
+				<a href="/oop/GUtenti"><em class="fa fa-users">&nbsp;</em>Gestione Utenti</a>
 			</li>
 			<li>
-				<a href="/web/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
+				<a href="/oop/GRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
+			</li>
+			<li>
+				<a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
 			</li>
 		</ul>
 	</div>
