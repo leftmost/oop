@@ -41,24 +41,24 @@ public class UtenteDAO implements UtenteDAOint {
 	@Override
 	public Utente findUserbyUsername(String username) throws SQLException {
 		
-		 Utente utente=null;
-		    Connection connection = Database.openConnection();  
-		    PreparedStatement ps = connection.prepareStatement(FIND_BY_USERNAME);
-		    ps.setString(1, username);
-		    
-		    ResultSet result = ps.executeQuery();
-		    if ( result.first() == false ) {
-		        return null;
-		    }
-		    
-		    utente = new Utente(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6));
-		    TimelineDAOint timeline = new TimelineDAO();
-		    Timeline usersTimeline = timeline.findTimelineByUsername(utente.getUsername());
-		    utente.setTimeline(usersTimeline);
-		    ps.close();
-		    result.close();
-		    connection.close();
-		    return utente;
+		Utente utente=null;
+		Connection connection = Database.openConnection();  
+		PreparedStatement ps = connection.prepareStatement(FIND_BY_USERNAME);
+		ps.setString(1, username);
+
+		ResultSet result = ps.executeQuery();
+		if ( result.first() == false ) {
+			return null;
+		}
+
+		utente = new Utente(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6));
+		TimelineDAOint timeline = new TimelineDAO();
+		Timeline usersTimeline = timeline.findTimelineByUsername(utente.getUsername());
+		utente.setTimeline(usersTimeline);
+		ps.close();
+		result.close();
+		connection.close();
+		return utente;
 	}
 	
 	
