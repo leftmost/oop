@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import Model.Timeline;
 import Model.Utente;
+import Model.DAO.Interface.TimelineDAOint;
 import Model.DAO.Interface.UtenteDAOint;
 import Model.Database.Database;
 
@@ -39,7 +41,7 @@ public class UtenteDAO implements UtenteDAOint {
 	@Override
 	public Utente findUserbyUsername(String username) throws SQLException {
 		
-		 Utente utente;
+		 Utente utente=null;
 		    Connection connection = Database.openConnection();  
 		    PreparedStatement ps = connection.prepareStatement(FIND_BY_USERNAME);
 		    ps.setString(1, username);
@@ -50,11 +52,15 @@ public class UtenteDAO implements UtenteDAOint {
 		    }
 		    
 		    utente = new Utente(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6));
+		    TimelineDAOint timeline = new TimelineDAO();
+		    Timeline usersTimeline = timeline.findTimelineByUsername(utente.getUsername());
+		    utente.setTimeline(usersTimeline);
 		    ps.close();
 		    result.close();
 		    connection.close();
 		    return utente;
 	}
+	
 	
 	
 	

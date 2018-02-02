@@ -26,7 +26,7 @@ public interface UtenteDAOint {
 //		}
 		
 		//ricerca user
-		Utente ricerca = i.findUserbyUsername("kij");
+		Utente ricerca = i.findUserbyUsername("loreand");
 		System.out.println(ricerca);
 	}
 }
