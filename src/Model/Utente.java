@@ -74,8 +74,15 @@ public class Utente
 	public void setTimeline(Timeline timeline) {
 		this.timeline = timeline;
 	}
-	   
-	 
+	  
+	public int getLivello() {
+		return timeline.lastExp().getLivello();
+	}
+	
+	public int getEsperienza() {
+		return timeline.lastExp().getExp();
+	}
+	
 	  @Override
 	public String toString() {
 		return "Utente [username=" + username + ", email=" + email + ", password=" + password + ", nome=" + nome

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Model.Utente;
+
 /**
  * Servlet implementation class Home
  */
@@ -46,13 +48,22 @@ public class Home extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//sessione corretta
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
-		
+
+		Utente utente = (Utente) session.getAttribute("login");
+		//set parametri
+		request.setAttribute("username",utente.getUsername());
+		request.setAttribute("nome",utente.getNome());
+		request.setAttribute("cognome",utente.getCognome());
+		request.setAttribute("livello",utente.getLivello());
+		request.setAttribute("esperienza",utente.getEsperienza());
+		request.setAttribute("tipologia",utente.getTipologia());
 		//Carica Home.jsp
-				ServletContext sc = request.getSession().getServletContext();
-				RequestDispatcher rd = sc.getRequestDispatcher("/Home.jsp");
-				rd.forward(request, response);
+		ServletContext sc = request.getSession().getServletContext();
+		RequestDispatcher rd = sc.getRequestDispatcher("/Home.jsp");
+		rd.forward(request, response);
 	}
 
 	/**

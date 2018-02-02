@@ -18,10 +18,14 @@ public class Timeline{
 	public boolean remove(Esperienza e) {
 		return timeline.remove(e);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Timeline [timeline=" + timeline + "]";
+	}
+
+	public Esperienza lastExp() {
+		return timeline.get(0);
 	}
 
 	
