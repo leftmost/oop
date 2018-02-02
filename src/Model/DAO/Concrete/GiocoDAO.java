@@ -131,6 +131,7 @@ public class GiocoDAO implements GiocoDAOint{
 		    rset.close();
 		    connection.close();
 		    return votes_avarage;
+		    
 	  }
 
 
