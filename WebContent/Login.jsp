@@ -22,32 +22,14 @@
 					<div class="panel-body">
 						<form role="form" action="/oop17/Login" method="Post">
 							<fieldset>
-								<div class="form-group col-md-10 col-md-offset-1">
-									<input class="form-control" placeholder="Username" name="username" type="text" required>
+								<div class="form-group <%if(request.getAttribute("ErrorUser")!=null){ out.print("has-error");}%> col-md-10 col-md-offset-1">
+									<input class="form-control" placeholder="Username" name="username" type="text" required value="<%if(request.getAttribute("UserInsert")!=null){ out.print(request.getAttribute("UserInsert"));}%>">
 								</div>
-								<%
-								if(request.getAttribute("username")=="1"){
-								%>
-								<div class="alert bg-warning" role="alert">
-									<em class="fa fa-lg fa-warning">&nbsp;</em> Username not found!
-									<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+								
+								<div class="form-group <%if(request.getAttribute("ErrorPassword")!=null){ out.print("has-error");}%> col-md-10 col-md-offset-1">
+									<input class="form-control" placeholder="Password" name="password" type="password" required>
 								</div>
-								<%
-								}
-								%>
-								<div class="form-group col-md-10 col-md-offset-1">
-									<input class="form-control" placeholder="Password" name="password" type="password" value="" required>
-								</div>
-								<%
-								if(request.getAttribute("password")=="1"){
-								%>
-								<div class="alert bg-warning" role="alert">
-									<em class="fa fa-lg fa-warning">&nbsp;</em> Password incorrect 
-									<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
-								</div>
-								<%
-								}
-								%>
+								
 								<div class="form-group text-center">
 									<input type="submit"  class="btn btn-primary" style="padding: 8px 103px; margin-top:15px;" value="Login" >
 								</div>

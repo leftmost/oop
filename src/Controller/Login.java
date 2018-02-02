@@ -62,26 +62,44 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//ricezione parametri
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
-		
-		System.out.println(username);
-		
+
+		// interfaccia DAO
 		UtenteDAOint utentei=new UtenteDAO();
-		
-		
+
 		try {
-			
+			//crea utente dalla ricerca
 			Utente utente= utentei.findUserbyUsername(username);
-			System.out.println(utente);
+			//controllo esistenza utente
+			if(utente==null){
+				//set errore utente
+				request.setAttribute("ErrorUser","has-error");
+				//carico login.jsp
+				ServletContext sc = request.getSession().getServletContext();
+				RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
+				rd.forward(request, response);
+			}
+			//controllo correttezza password
+			else if(utente.getPassword()!=password){
+				//set username corretto
+				request.setAttribute("UserInsert",username);
+				//set errore password
+				request.setAttribute("ErrorPassword","has-error");
+				//carico  login.jsp
+				ServletContext sc = request.getSession().getServletContext();
+				RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
+				rd.forward(request, response);
+				//ricarica login.jsp
+			}
+
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-		
-		
-		
-	}
 
+	}
 }
+
