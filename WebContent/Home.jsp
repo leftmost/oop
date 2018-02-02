@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lumino - Dashboard</title>
+<title>OOP17</title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
@@ -55,25 +55,25 @@
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="/oop/Home"><em
+			<li class="active"><a href="/oop17/Home"><em
 					class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
 			<li>
-				<a href="/oop/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
+				<a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
 			</li>
 			<li>
-				<a href="/oop/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
+				<a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
 			</li>
 			<li>
-				<a href="/oop/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
+				<a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
 			<li>
-				<a href="/oop/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
+				<a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
 			</li>
 			<%}%>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
 			<li>
-				<a href="/oop/GRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
+				<a href="/oop17/GRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
 			</li>
 			<%}%>
 			<li>
