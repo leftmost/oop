@@ -48,7 +48,11 @@ public class Home extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
-			
+		
+		//Carica Home.jsp
+				ServletContext sc = request.getSession().getServletContext();
+				RequestDispatcher rd = sc.getRequestDispatcher("/Home.jsp");
+				rd.forward(request, response);
 	}
 
 	/**
