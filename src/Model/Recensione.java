@@ -8,21 +8,11 @@ public class Recensione {
 	private int voto;
 	private String recensione;
 	
-	public Recensione() {}
-
-	public Recensione(String utente_username, int gioco_id, String recensione) {
+	public Recensione(String utente_username, int gioco_id, int voto, String recensione) {
 		
 		this.utente_username = utente_username;
 		this.gioco_id = gioco_id;
 		this.recensione = recensione;
-	}
-
-	public Recensione(String utente_username, int gioco_id, boolean approvazione, int voto, String recensione) {
-		
-		this.utente_username = utente_username;
-		this.gioco_id = gioco_id;
-		this.recensione = recensione;
-		this.approvazione = approvazione;
 		this.voto = voto;
 	}
 

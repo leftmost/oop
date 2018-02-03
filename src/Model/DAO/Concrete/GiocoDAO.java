@@ -108,7 +108,7 @@ public class GiocoDAO implements GiocoDAOint{
 		    ps.setInt(1, gioco.getId());
 		    ResultSet rset = ps.executeQuery();
 		    while (rset.next()){
-		      Recensione recensione = new Recensione(rset.getString(1), rset.getInt(2), rset.getBoolean(3), rset.getInt(4), rset.getString(5));
+		      Recensione recensione = new Recensione(rset.getString(1), rset.getInt(2), rset.getInt(4), rset.getString(5));
 		      game_reviews.add(recensione);
 		    }
 		    ps.close();
