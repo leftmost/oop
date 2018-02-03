@@ -15,10 +15,10 @@ public class RecensioneDAO implements RecensioneDAOint{
 	INSERT = "INSERT INTO Recensione(utente_username, gioco_id, voto, recensione) VALUES (?, ?, ?, ?);";
 	
 	private static final String
-	APPROVAL = "UPDATE Recensione SET approvazione='1' WHERE utente_username='?' AND gioco_id='?';";
+	APPROVAL = "UPDATE Recensione SET approvazione=1 WHERE utente_username=? AND gioco_id=?;";
 	
 	private static final String
-	MOD = "UPDATE Recensione SET recensione=?, voto=? WHERE utente_username=? , gioco_id=?;";
+	MOD = "UPDATE Recensione SET recensione=?, voto=? WHERE utente_username=? AND gioco_id=?;";
 	
 	//inserimento nuova recensione
 	public int insertReview(Recensione recensione) throws SQLException {

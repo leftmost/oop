@@ -29,12 +29,20 @@ public interface RecensioneDAOint {
 			
 		//   2 - approvazione recensione
 			
-			try {
-					int ok=a.approvalReview(new Recensione("chante",2,2,"molto bellissimo"));
-				System.out.println(ok);
-			} catch (SQLException e){
-					e.printStackTrace();
-				}	
+//			try {
+//					int ok=a.approvalReview(new Recensione("chante",2,2,"molto bellissimo"));
+//				System.out.println(ok);
+//			} catch (SQLException e){
+//					e.printStackTrace();
+//				}	
 			
+		//   3 - modifica recensione
+//			
+//				try {
+//						int ok=a.modReview(new Recensione("chante",2,5,"iper bello"));
+//						System.out.println(ok);
+//					} catch (SQLException e){
+//						e.printStackTrace();
+//					}	
 	}
 }
