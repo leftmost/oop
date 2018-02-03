@@ -15,16 +15,16 @@ import javax.servlet.http.HttpSession;
 import Model.Utente;
 
 /**
- * Servlet implementation class Home
+ * Servlet implementation class Timeline
  */
-@WebServlet("/Home")
-public class Home extends HttpServlet {
+@WebServlet("/Timeline")
+public class Timeline extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Home() {
+    public Timeline() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,23 +47,25 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		//sessione corretta
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
 
-		
+
 		Utente utente = (Utente) session.getAttribute("login");
-		//set parametri
+		//set default parametri
 		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("cognome",utente.getCognome());
-		request.setAttribute("livello",utente.getLivello());
-		request.setAttribute("esperienza",utente.getEsperienza());
 		request.setAttribute("tipologia",utente.getTipologia());
+		
+		
+		//recupera timeline
+		Model.Timeline timeline = utente.getTimeline();
+		//set timeline
+		request.setAttribute("timeline",timeline);
+		
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Home.jsp");
+		RequestDispatcher rd = sc.getRequestDispatcher("/Timeline.jsp");
 		rd.forward(request, response);
 	}
 

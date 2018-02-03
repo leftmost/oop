@@ -16,8 +16,7 @@ import javax.servlet.http.HttpSession;
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
-import Model.Database.DB;
-import Model.Database.Database;
+
 
 /**
  * Servlet implementation class Login

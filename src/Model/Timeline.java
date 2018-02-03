@@ -1,9 +1,10 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Timeline{
+public class Timeline implements Iterable<Esperienza>{
 	
 	List<Esperienza> timeline;
 	
@@ -28,6 +29,9 @@ public class Timeline{
 		return timeline.get(0);
 	}
 
-	
+	@Override
+	public Iterator<Esperienza> iterator() {
+		return this.timeline.iterator();
+	}	
 	
 }

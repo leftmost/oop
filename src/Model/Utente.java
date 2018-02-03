@@ -83,6 +83,10 @@ public class Utente
 		return timeline.lastExp().getExp();
 	}
 	
+	public Timeline getTimeline() {
+		return this.timeline;
+	}
+	
 	  @Override
 	public String toString() {
 		return "Utente [username=" + username + ", email=" + email + ", password=" + password + ", nome=" + nome
