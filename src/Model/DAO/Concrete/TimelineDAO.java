@@ -15,13 +15,13 @@ import Model.Database.Database;
 public class TimelineDAO implements TimelineDAOint {
 
 	private static final String
-	FIND_BY_USERNAME = "SELECT * FROM Timeline WHERE Utente_Username = ? ORDER BY Data DESC;";
+	RICERCA = "SELECT * FROM Timeline WHERE Utente_Username = ? ORDER BY Data DESC;";
 
 	@Override
-	public Timeline findTimelineByUsername(String username) throws SQLException {
+	public Timeline ricercaTimeline(String username) throws SQLException {
 		Timeline timeline = new Timeline();
 		Connection connection = Database.openConnection();  
-		PreparedStatement ps = connection.prepareStatement(FIND_BY_USERNAME);
+		PreparedStatement ps = connection.prepareStatement(RICERCA);
 		ps.setString(1, username);
 
 		ResultSet result = ps.executeQuery();

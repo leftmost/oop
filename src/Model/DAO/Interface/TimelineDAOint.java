@@ -5,5 +5,5 @@ import Model.Timeline;
 
 public interface TimelineDAOint {
 
-	public Timeline findTimelineByUsername(String username) throws SQLException;
+	public Timeline ricercaTimeline(String username) throws SQLException;
 }

@@ -11,17 +11,17 @@ import Model.DAO.Concrete.GiocoDAO;
 
 public interface GiocoDAOint {
 	
-	public int insertGame(Gioco gioco) throws SQLException;
+	public int inserisciGioco(Gioco gioco) throws SQLException;
 	
-	public int deleteGame(Gioco gioco) throws SQLException;
+	public int eliminaGioco(Gioco gioco) throws SQLException;
 	
-	public Gioco findGameByTitle(String titolo) throws SQLException;
+	public Gioco ricercaGioco(String titolo) throws SQLException;
 	
-	public ArrayList<Gioco> allGames() throws SQLException;
+	public ArrayList<Gioco> tuttiGiochi() throws SQLException;
 	
-	public ArrayList<Recensione> allGameReviews(Gioco gioco) throws SQLException;
+	public ArrayList<Recensione> recensioniGioco(Gioco gioco) throws SQLException;
 	
-	public int getVotesAverage(Gioco gioco) throws SQLException;
+	public int voto(Gioco gioco) throws SQLException;
 	
 	
 	//++++++++++++++++++TEST++++++++++++++++++++++

@@ -14,15 +14,20 @@ import Model.Database.Database;
 public class UtenteDAO implements UtenteDAOint {
 	
 	private static final String
-	INSERT = "INSERT INTO Utente(username, email, password,nome, cognome, tipologia) VALUES (?, ?, ?, ?, ?,?);";
+	INSERIMENTO = "INSERT INTO Utente(username, email, password,nome, cognome, tipologia) VALUES (?, ?, ?, ?, ?,?);";
 	
 	private static final String
-	FIND_BY_USERNAME = "SELECT * FROM utente WHERE username = ?;";
+	RICERCA = "SELECT * FROM utente WHERE username = ?;";
 	
+	private static final String
+	AGGIORNAMENTO = "UPDATE utente SET tipologia=? ;";
+	
+	
+	//inserisce un nuovo User
 	@Override
-	public int insertUser(Utente utente) throws SQLException {
+	public int inserisciUser(Utente utente) throws SQLException {
 		 Connection connection = Database.openConnection();
-		    PreparedStatement ps = connection.prepareStatement(INSERT);
+		    PreparedStatement ps = connection.prepareStatement(INSERIMENTO);
 		    ps.setString(1, utente.getUsername());
 		    ps.setString(2, utente.getEmail());
 		    ps.setString(3, utente.getPassword());
@@ -37,13 +42,13 @@ public class UtenteDAO implements UtenteDAOint {
 		    return result;
 	}
 
-
+	//ricerca un User 
 	@Override
-	public Utente findUserbyUsername(String username) throws SQLException {
+	public Utente ricercaUser(String username) throws SQLException {
 		
 		Utente utente=null;
 		Connection connection = Database.openConnection();  
-		PreparedStatement ps = connection.prepareStatement(FIND_BY_USERNAME);
+		PreparedStatement ps = connection.prepareStatement(RICERCA);
 		ps.setString(1, username);
 
 		ResultSet result = ps.executeQuery();
@@ -53,12 +58,32 @@ public class UtenteDAO implements UtenteDAOint {
 
 		utente = new Utente(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6));
 		TimelineDAOint timeline = new TimelineDAO();
-		Timeline usersTimeline = timeline.findTimelineByUsername(utente.getUsername());
+		Timeline usersTimeline = timeline.ricercaTimeline(utente.getUsername());
 		utente.setTimeline(usersTimeline);
 		ps.close();
 		result.close();
 		connection.close();
 		return utente;
+	}
+	
+	
+	//promuove o retrocede un User
+	@Override
+	public int aggiornaUser(Utente utente) throws SQLException {
+		 Connection connection = Database.openConnection();
+		    PreparedStatement ps = connection.prepareStatement(AGGIORNAMENTO);
+		    ps.setString(1, utente.getUsername());
+		    ps.setString(2, utente.getEmail());
+		    ps.setString(3, utente.getPassword());
+		    ps.setString(4, utente.getNome());
+		    ps.setString(5, utente.getNome());
+		    ps.setString(6, utente.getTipologia());
+		  
+		    int result = ps.executeUpdate();
+		    
+		    ps.close();
+		    connection.close();
+		    return result;
 	}
 	
 	

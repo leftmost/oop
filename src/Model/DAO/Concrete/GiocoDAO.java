@@ -17,27 +17,28 @@ import Model.Database.Database;
 public class GiocoDAO implements GiocoDAOint{
 	
 	private static final String
-	INSERT = "INSERT INTO Gioco(id, titolo, exp) VALUES (?, ?, ?);";
+	INSERIMENTO = "INSERT INTO Gioco(id, titolo, exp) VALUES (?, ?, ?);";
 	
 	private static final String
-	DELETE = "DELETE FROM gioco WHERE id = ?;";
+	ELIMINA = "DELETE FROM gioco WHERE id = ?;";
 	
 	private static final String
-	FIND_BY_TITLE = "SELECT * FROM gioco WHERE titolo = ?;";
+	RICERCA = "SELECT * FROM gioco WHERE titolo = ?;";
 	
 	private static final String
-	ALL = "SELECT * FROM gioco ORDER BY titolo;";
+	TUTTI = "SELECT * FROM gioco ORDER BY titolo;";
 	
 	private static final String
-	REVIEWS = "SELECT * FROM recensione WHERE recensione.gioco_id = ? AND recensione.approvazione = 1;";
+	RECENSIONI = "SELECT * FROM recensione WHERE recensione.gioco_id = ? AND recensione.approvazione = 1;";
 	
 	private static final String
-	VOTES= "SELECT valutazione FROM gioco WHERE id = ?;";
+	VOTO= "SELECT valutazione FROM gioco WHERE id = ?;";
 	
 	//inserimento nuovo gioco
-	public int insertGame(Gioco gioco) throws SQLException {
+	@Override
+	public int inserisciGioco(Gioco gioco) throws SQLException {
 		 	Connection connection = Database.openConnection();
-		    PreparedStatement ps = connection.prepareStatement(INSERT);
+		    PreparedStatement ps = connection.prepareStatement(INSERIMENTO);
 		    ps.setInt(1, gioco.getId());
 		    ps.setString(2, gioco.getTitolo());
 		    ps.setInt(3, gioco.getExp());
@@ -50,9 +51,10 @@ public class GiocoDAO implements GiocoDAOint{
 	}
 	
 	//eliminazione gioco tramite id
-	public int deleteGame(Gioco gioco) throws SQLException{
+	@Override
+	public int eliminaGioco(Gioco gioco) throws SQLException{
 		 	Connection connection = Database.openConnection();
-		 	PreparedStatement ps = connection.prepareStatement(DELETE);
+		 	PreparedStatement ps = connection.prepareStatement(ELIMINA);
 		 	ps.setInt(1, gioco.getId());
 		 	
 		 	int result = ps.executeUpdate();
@@ -63,11 +65,12 @@ public class GiocoDAO implements GiocoDAOint{
 	 }
 	
 	//ricerca gioco tramite titolo
-	public Gioco findGameByTitle(String titolo) throws SQLException {
+	@Override
+	public Gioco ricercaGioco(String titolo) throws SQLException {
 		
 		 	Gioco gioco;
 		    Connection connection = Database.openConnection();  
-		    PreparedStatement ps = connection.prepareStatement(FIND_BY_TITLE);
+		    PreparedStatement ps = connection.prepareStatement(RICERCA);
 		    ps.setString(1, titolo);
 		    
 		    ResultSet result = ps.executeQuery();
@@ -83,12 +86,13 @@ public class GiocoDAO implements GiocoDAOint{
 	}
 	
 	//restituisce tutti i giochi ordinati in ordine alfabetico
-	public ArrayList<Gioco> allGames() throws SQLException{
+	@Override
+	public ArrayList<Gioco> tuttiGiochi() throws SQLException{
 		
 		    ArrayList<Gioco> all_games = new ArrayList<>();
 		    Connection connection = Database.openConnection();
 		    Statement s = connection.createStatement();
-		    ResultSet rset = s.executeQuery(ALL);
+		    ResultSet rset = s.executeQuery(TUTTI);
 		    while (rset.next()){
 		      Gioco gioco = new Gioco(rset.getInt(1), rset.getString(2), rset.getInt(3));
 		      all_games.add(gioco);
@@ -100,11 +104,12 @@ public class GiocoDAO implements GiocoDAOint{
 	  }
 	
 	//restituisce tutte le recensioni del gioco
-	public ArrayList<Recensione> allGameReviews(Gioco gioco) throws SQLException{
+	@Override
+	public ArrayList<Recensione> recensioniGioco(Gioco gioco) throws SQLException{
 		
 		    ArrayList<Recensione> game_reviews = new ArrayList<>();
 		    Connection connection = Database.openConnection();
-		    PreparedStatement ps = connection.prepareStatement(REVIEWS);
+		    PreparedStatement ps = connection.prepareStatement(RECENSIONI);
 		    ps.setInt(1, gioco.getId());
 		    ResultSet rset = ps.executeQuery();
 		    while (rset.next()){
@@ -118,11 +123,12 @@ public class GiocoDAO implements GiocoDAOint{
 	  }
 	
 	//restituisce il voto medio del gioco
-	public int getVotesAverage(Gioco gioco) throws SQLException{
+	@Override
+	public int voto(Gioco gioco) throws SQLException{
 		
 		    int votes_avarage;
 		    Connection connection = Database.openConnection();
-		    PreparedStatement ps = connection.prepareStatement(VOTES);
+		    PreparedStatement ps = connection.prepareStatement(VOTO);
 		    ps.setInt(1, gioco.getId());
 		    ResultSet rset = ps.executeQuery();
 		    rset.first();
