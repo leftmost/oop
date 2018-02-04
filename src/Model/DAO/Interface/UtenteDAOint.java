@@ -10,7 +10,9 @@ public interface UtenteDAOint {
 	
 	public Utente ricercaUser(String username) throws SQLException;
 	
-	public int aggiornaUser(Utente utente) throws SQLException;
+	public int aggTipologiaUser(Utente utente) throws SQLException;
+	
+	public int aggAnagraficaUser(Utente utente) throws SQLException;
 	
 	public boolean emailEsistente(String email) throws SQLException;
 
@@ -18,13 +20,11 @@ public interface UtenteDAOint {
 	
 	//TEST
 	public static void main(String[] args){
-		UtenteDAOint i = new UtenteDAO();
+		UtenteDAOint user = new UtenteDAO();
 		
 		try {
-			System.out.println(i.emailEsistente("andreoli@univaq.it"));
-			System.out.println(i.usernameEsistente("loreadnD"));
+			user.aggTipologiaUser(new Utente("loreand", null, null, null, null, "Users"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

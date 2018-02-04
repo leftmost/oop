@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Model.Utente;
+import Model.DAO.Concrete.UtenteDAO;
+import Model.DAO.Interface.UtenteDAOint;
 
 /**
  * Servlet implementation class Profilo
@@ -20,14 +23,14 @@ import Model.Utente;
 @WebServlet("/Profilo")
 public class Profilo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Profilo() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Profilo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -48,26 +51,46 @@ public class Profilo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//sessione corretta
-				HttpSession session = request.getSession(false);
-				if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
+		HttpSession session = request.getSession(false);
+		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
 
-				Utente utente = (Utente) session.getAttribute("login");
-				//set parametri
-				request.setAttribute("username",utente.getUsername());
-				request.setAttribute("nome",utente.getNome());
-				request.setAttribute("cognome",utente.getCognome());
-				request.setAttribute("tipologia",utente.getTipologia());
-				//Carica Home.jsp
-				ServletContext sc = request.getSession().getServletContext();
-				RequestDispatcher rd = sc.getRequestDispatcher("/Profilo.jsp");
-				rd.forward(request, response);
+		Utente utente = (Utente) session.getAttribute("login");
+		//set parametri
+		request.setAttribute("username",utente.getUsername());
+		request.setAttribute("nome",utente.getNome());
+		request.setAttribute("cognome",utente.getCognome());
+		request.setAttribute("tipologia",utente.getTipologia());
+		//Carica Home.jsp
+		ServletContext sc = request.getSession().getServletContext();
+		RequestDispatcher rd = sc.getRequestDispatcher("/Profilo.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		//ricezione parametri
+		String nome=request.getParameter("nome");
+		String cognome=request.getParameter("cognome");
+		
+		//modifica utente
+		HttpSession session = request.getSession();
+		Utente utente=(Utente) session.getAttribute("login");
+		utente.setNome(nome);
+		utente.setCognome(cognome);
+		session.setAttribute("login", utente);
+		
+		//salvataggio db
+		UtenteDAOint salvaModifiche=new UtenteDAO();
+		try {
+			salvaModifiche.aggAnagraficaUser(utente);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		request.setAttribute("modifica",true);
 		doGet(request, response);
 	}
 

@@ -56,12 +56,12 @@
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li><a href="/oop17/Home"><em
-					class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li><a href="/oop17/Home"><em class="fa fa-dashboard">&nbsp;</em>
+					Dashboard</a></li>
 			<li><a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
 			</li>
-			<li class="active"><a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
-			</li>
+			<li class="active"><a href="/oop17/Profilo"><em
+					class="fa fa-address-card">&nbsp;</em>Profilo</a></li>
 			<li><a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
 			<%
@@ -110,40 +110,61 @@
 							class="pull-right clickable panel-toggle panel-button-tab-left"><em
 							class="fa fa-toggle-up"></em></span>
 					</div>
-						<div class="panel-body">
-							<div class="col-md-10 col-md-offset-1">
-								<form role="form" action="/oop17/Login" method="Post">
-									<fieldset>
-										<div class="form-group">
-											<input class="form-control" name="nome" type="text" required value="<%=request.getAttribute("nome")%>">
-										</div>
+					<div class="panel-body">
+						<div class="col-md-10 col-md-offset-1">
+							<form role="form" action="/oop17/Profilo" method="Post">
+								<fieldset>
+									<div class="form-group">
+										<input class="form-control" name="nome" type="text" required
+											value="<%=request.getAttribute("nome")%>">
+									</div>
 
-										<div class="form-group">
-											<input class="form-control" name="cognome" type="text" required value="<%=request.getAttribute("cognome")%>">
-										</div>
+									<div class="form-group">
+										<input class="form-control" name="cognome" type="text"
+											required value="<%=request.getAttribute("cognome")%>">
+									</div>
 
-										<div class="form-group text-center">
-											<input type="submit" class="btn btn-primary" style="padding: 8px 50px; margin-top: 15px;" value="Salva">
-										</div>
-									</fieldset>
-								</form>
-							</div>
+									<div class="form-group text-center">
+										<input type="submit" class="btn btn-primary"
+											style="padding: 8px 50px; margin-top: 15px;" value="Salva">
+									</div>
+								</fieldset>
+							</form>
 						</div>
 					</div>
 				</div>
-				<!--/.anagrafica-->
+				<%
+										if (request.getAttribute("modifica") != null) {
+									%>
+									<div class="form-group">
+										<div id='delete' class="alert bg-success" role="alert">
+											<em class="fa fa-lg fa-warning">&nbsp;</em> Salvataggio
+											effettuato <a href="#" class="pull-right"><em
+												class="fa fa-lg fa-close"></em></a>
+										</div>
+									</div>
+									<%
+										}
+									%>
 			</div>
-			<!--/.col-->
+			<!--/.anagrafica-->
 		</div>
-		<!--/.row-->
+		<!--/.col-->
+	</div>
+	<!--/.row-->
 
-		<script src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/chart.min.js"></script>
-		<script src="js/chart-data.js"></script>
-		<script src="js/easypiechart.js"></script>
-		<script src="js/easypiechart-data.js"></script>
-		<script src="js/bootstrap-datepicker.js"></script>
-		<script src="js/custom.js"></script>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/chart.min.js"></script>
+	<script src="js/chart-data.js"></script>
+	<script src="js/easypiechart.js"></script>
+	<script src="js/easypiechart-data.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/custom.js"></script>
+	<script type="text/javascript">
+      setTimeout(function(){
+      $('#delete').remove();
+      }, 1000);
+      </script>";
 </body>
 </html>

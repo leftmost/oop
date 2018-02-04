@@ -20,7 +20,10 @@ public class UtenteDAO implements UtenteDAOint {
 	RICERCA = "SELECT * FROM utente WHERE username = ?;";
 
 	private static final String
-	AGGIORNAMENTO = "UPDATE utente SET tipologia=? ;";
+	AGG_TIPOLOGIA = "UPDATE utente SET tipologia=? WHERE username=?;";
+	
+	private static final String
+	AGG_ANAGRAFICA = "UPDATE utente SET Nome=?,Cognome=? WHERE username=?;";
 
 	private static final String
 	EMAIL_ESISTENTE = "SELECT * FROM utente WHERE email = ?;";
@@ -81,15 +84,11 @@ public class UtenteDAO implements UtenteDAOint {
 
 	//promuove o retrocede un User
 	@Override
-	public int aggiornaUser(Utente utente) throws SQLException {
+	public int aggTipologiaUser(Utente utente) throws SQLException {
 		Connection connection = Database.openConnection();
-		PreparedStatement ps = connection.prepareStatement(AGGIORNAMENTO);
-		ps.setString(1, utente.getUsername());
-		ps.setString(2, utente.getEmail());
-		ps.setString(3, utente.getPassword());
-		ps.setString(4, utente.getNome());
-		ps.setString(5, utente.getNome());
-		ps.setString(6, utente.getTipologia());
+		PreparedStatement ps = connection.prepareStatement(AGG_TIPOLOGIA);
+		ps.setString(1, utente.getTipologia());
+		ps.setString(2, utente.getUsername());
 
 		int result = ps.executeUpdate();
 
@@ -97,6 +96,22 @@ public class UtenteDAO implements UtenteDAOint {
 		connection.close();
 		return result;
 	}
+	
+	//Modifica anagrafica utente
+		@Override
+		public int aggAnagraficaUser(Utente utente) throws SQLException {
+			Connection connection = Database.openConnection();
+			PreparedStatement ps = connection.prepareStatement(AGG_ANAGRAFICA);
+			ps.setString(1, utente.getNome());
+			ps.setString(2, utente.getCognome());
+			ps.setString(3, utente.getUsername());
+
+			int result = ps.executeUpdate();
+
+			ps.close();
+			connection.close();
+			return result;
+		}
 
 	@Override
 	public boolean emailEsistente(String email) throws SQLException {
@@ -139,10 +154,5 @@ public class UtenteDAO implements UtenteDAOint {
 		connection.close();
 		return usernameEsistente;
 	}
-
-
-
-
-
 
 }

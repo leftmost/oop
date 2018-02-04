@@ -99,7 +99,7 @@ public class SignUp extends HttpServlet {
 		}
 		//salvataggio utente
 		try {
-			nuovoUtente.inserisciUser(new Utente(username, email, password, nome, cognome));
+			nuovoUtente.inserisciUser(new Utente(username, email, password, nome, cognome,"Utente"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

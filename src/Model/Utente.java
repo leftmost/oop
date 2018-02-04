@@ -23,13 +23,6 @@ public class Utente
 		this.tipologia = tipologia;
 	}
 	
-	public Utente(String username, String email, String password, String nome, String cognome){
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
-	}
 	
 	public String getUsername() {
 		return username;
