@@ -30,6 +30,8 @@ public class UtenteDAO implements UtenteDAOint {
 
 	private static final String
 	USERNAME_ESISTENTE = "SELECT * FROM utente WHERE username = ?;";
+	
+	
 
 
 	//inserisce un nuovo User
