@@ -71,7 +71,7 @@ public class Login extends HttpServlet {
 		try {
 			
 			//crea utente dalla ricerca
-			Utente utente= utentei.findUserbyUsername(username);
+			Utente utente= utentei.ricercaUser(username);
 			//controllo esistenza utente
 			if(utente==null){
 				//set errore utente
