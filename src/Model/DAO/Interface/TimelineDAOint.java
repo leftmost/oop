@@ -1,6 +1,7 @@
 package Model.DAO.Interface;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import Model.Esperienza;
@@ -13,7 +14,7 @@ public interface TimelineDAOint {
 
 	public Timeline ricercaTimeline(String username) throws SQLException;
 	
-	public int aumentaExp(String username, Date data) throws SQLException;
+	public int aumentaExp(String username) throws SQLException;
 	
 	public int aggiornaTimeline(Utente utente) throws SQLException;
 	
@@ -37,15 +38,8 @@ public interface TimelineDAOint {
 	
 	
 //  2 - exp
-//		TimelineDAOint a = new TimelineDAO();
-//	
-//		
-//		try {
-//			int ok=a.aumentaExp("andcant");
-//			System.out.println(ok);
-//		} catch (SQLException e){
-//			e.printStackTrace();
-//		}
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		System.out.println(simpleDateFormat.format(new Date()));
 }
 	
 }

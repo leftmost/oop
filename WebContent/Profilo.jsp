@@ -162,9 +162,9 @@
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script type="text/javascript">
-		setTimeout(function() {
-			$('#delete').remove();
-		}, 1000);
-	</script>
+      setTimeout(function(){
+      $('#delete').remove();
+      }, 1000);
+      </script>";
 </body>
 </html>

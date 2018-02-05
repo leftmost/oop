@@ -18,10 +18,10 @@ public class TimelineDAO implements TimelineDAOint {
 	RICERCA = "SELECT * FROM Timeline WHERE Utente_Username = ? ORDER BY Data DESC;";
 	
 	private static final String
-	AUM_EXP = "UPDATE timeline SET exp=exp+10 WHERE utente_username=?;";
+	AUM_EXP = "UPDATE timeline SET exp=exp+10 WHERE utente_username=? AND Data=DATE(NOW());";
 	
 	private static final String
-	INSERT = "INSERT INTO Timeline (utente_username, livello, data, exp) VALUES (?,?,Date(NOW()),?);";
+	INSERT = "INSERT INTO Timeline (utente_username, data, exp) VALUES (?,Date(NOW()),?);";
 
 
 	//ricerca Timeline
@@ -35,7 +35,7 @@ public class TimelineDAO implements TimelineDAOint {
 		ResultSet result = ps.executeQuery();
 
 		while(result.next()){
-			timeline.add(new Esperienza(result.getInt("Livello"), result.getDate("Data"), result.getInt("Exp")));
+			timeline.add(new Esperienza(result.getDate("Data"), result.getInt("Exp")));
 		}
 		if(result.first()==false) {timeline=null;}
 
@@ -48,7 +48,7 @@ public class TimelineDAO implements TimelineDAOint {
 	
 	//aumenta l'esperienza dell'user
 	@Override
-	public int aumentaExp(String username, Date data) throws SQLException {
+	public int aumentaExp(String username) throws SQLException {
 		Connection connection = Database.openConnection();
 		PreparedStatement ps = connection.prepareStatement(AUM_EXP);
 		ps.setString(1, username);
@@ -68,8 +68,7 @@ public class TimelineDAO implements TimelineDAOint {
 		Connection connection = Database.openConnection();
 		PreparedStatement ps = connection.prepareStatement(INSERT);
 		ps.setString(1, utente.getUsername());
-		ps.setInt(2, utente.getLivello());
-		ps.setInt(3, utente.getEsperienza());
+		ps.setInt(2, utente.getEsperienza()+10);
 
 		int result = ps.executeUpdate();
 

@@ -4,23 +4,13 @@ import java.util.Date;
 
 public class Esperienza {
 
-	private int livello;
 	private Date data;
 	private int exp;
 	
-	public Esperienza(int livello, Date data, int exp) {
+	public Esperienza(Date data, int exp) {
 
-		this.livello = livello;
 		this.data = data;
 		this.exp = exp;
-	}
-
-	public int getLivello() {
-		return livello;
-	}
-	
-	public void setLivello(int livello) {
-		this.livello = livello;
 	}
 	
 	public Date getData() {
@@ -41,6 +31,6 @@ public class Esperienza {
 	
 	@Override
 	public String toString() {
-		return "Esperienza [livello=" + livello + ", data=" + data + ", exp=" + exp + "]";
+		return "Esperienza [Exp=" + ", data=" + data + ", exp=" + exp + "]";
 	}
 }

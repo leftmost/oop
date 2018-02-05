@@ -25,9 +25,11 @@ public class Timeline implements Iterable<Esperienza>{
 		return "Timeline [timeline=" + timeline + "]";
 	}
 
+	//restituisce ultimo oggetto esperienza
 	public Esperienza lastExp() {
 		return timeline.get(0);
 	}
+	
 
 	@Override
 	public Iterator<Esperienza> iterator() {

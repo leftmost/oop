@@ -76,9 +76,6 @@ public class Utente
 		this.timeline = timeline;
 	}
 	  
-	public int getLivello() {
-		return timeline.lastExp().getLivello();
-	}
 	
 	public int getEsperienza() {
 		return timeline.lastExp().getExp();

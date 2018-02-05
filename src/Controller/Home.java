@@ -58,7 +58,6 @@ public class Home extends HttpServlet {
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("cognome",utente.getCognome());
-		request.setAttribute("livello",utente.getLivello());
 		request.setAttribute("esperienza",utente.getEsperienza());
 		request.setAttribute("tipologia",utente.getTipologia());
 		//Carica Home.jsp

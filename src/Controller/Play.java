@@ -1,6 +1,11 @@
 package Controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,6 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Model.Utente;
+import Model.DAO.Concrete.TimelineDAO;
+import Model.DAO.Concrete.UtenteDAO;
+import Model.DAO.Interface.TimelineDAOint;
+import Model.DAO.Interface.UtenteDAOint;
 
 /**
  * Servlet implementation class Play
@@ -78,12 +87,47 @@ public class Play extends HttpServlet {
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("tipologia",utente.getTipologia());
 		request.setAttribute("titolo",request.getParameter("titolo"));
-		
-		
+
 		//random vittoria
 		boolean vittoria = Math.random() < 0.5;
 		request.setAttribute("vittoria",vittoria);
-		
+		//if vittoria=true aumenta punti 
+		if(vittoria) {
+			TimelineDAOint timeline = new TimelineDAO();
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date date = new Date();
+
+			String oraCorrente= dateFormat.format(date);
+			String oraUtente = dateFormat.format(utente.getTimeline().lastExp().getData());
+			
+			//confronta la data di oggi con l'ultima dell'utente
+			// se le date coincidono aggiorna l'esperienza
+			if(oraCorrente.equals(oraUtente)){
+				try {
+					timeline.aumentaExp(utente.getUsername());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					System.out.println("inserisci");
+					timeline.aggiornaTimeline(utente);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			UtenteDAOint aggiornaUtente = new UtenteDAO();
+			try {
+				Utente nuovoUtente = aggiornaUtente.ricercaUser(utente.getUsername());
+				session.setAttribute("login", nuovoUtente);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
