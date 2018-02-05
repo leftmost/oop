@@ -58,10 +58,10 @@
 		<ul class="nav menu">
 			<li><a href="/oop17/Home"><em class="fa fa-dashboard">&nbsp;</em>
 					Dashboard</a></li>
-			<li><a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
+			<li class="active"><a href="/oop17/Giochi"><em
+					class="fa fa-play-circle">&nbsp;</em>Giochi</a></li>
+			<li><a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
 			</li>
-			<li class="active"><a href="/oop17/Profilo"><em
-					class="fa fa-address-card">&nbsp;</em>Profilo</a></li>
 			<li><a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
 			<%
@@ -91,7 +91,7 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Profilo</li>
+				<li class="active">Giochi / <%=request.getAttribute("titolo")%></li>
 			</ol>
 		</div>
 		<!--/.row-->
@@ -101,57 +101,53 @@
 			</div>
 		</div>
 		<!--/.row-->
-		<!-- anagrafica -->
+
+		<!--Gioco-->
+		<!--row-->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						Modifica <span
-							class="pull-right clickable panel-toggle panel-button-tab-left"><em
-							class="fa fa-toggle-up"></em></span>
-					</div>
-					<div class="panel-body">
-						<div class="col-md-10 col-md-offset-1">
-							<form role="form" action="/oop17/Profilo" method="Post">
-								<fieldset>
-									<div class="form-group">
-										<input class="form-control" name="nome" type="text" required
-											value="<%=request.getAttribute("nome")%>">
-									</div>
-
-									<div class="form-group">
-										<input class="form-control" name="cognome" type="text"
-											required value="<%=request.getAttribute("cognome")%>">
-									</div>
-
-									<div class="form-group text-center">
-										<input type="submit" class="btn btn-primary"
-											style="padding: 8px 50px; margin-top: 15px;" value="Salva">
-									</div>
-								</fieldset>
-							</form>
+			<div class="col-xs-6 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">	
+						<div class="text-center">
+							<center><img src="/oop17/images/gioca.png" class="img-responsive" alt=""><center>
 						</div>
+						<form role="form" action="/oop17/Play" method="post">
+							<div class="panel-footer">
+								<input type="hidden" name="titolo" value="<%=request.getAttribute("titolo")%>">
+								<button type="submit" class="btn btn-success"><i class="fa fa-play-circle"></i> Play</button>
+							</div>
+						</form>
 					</div>
 				</div>
-				<%
-										if (request.getAttribute("modifica") != null) {
-									%>
-									<div class="form-group">
-										<div id='delete' class="alert bg-success" role="alert">
-											<em class="fa fa-lg fa-warning">&nbsp;</em> Salvataggio
-											effettuato <a href="#" class="pull-right"><em
-												class="fa fa-lg fa-close"></em></a>
-										</div>
-									</div>
-									<%
-										}
-									%>
 			</div>
-			<!--/.anagrafica-->
 		</div>
-		<!--/.col-->
+		<!--/.Gioco-->
+		<!--/.Risultato-->
+		
+		<!--/.Risulatato-->
+		<%
+			if (request.getAttribute("vittoria")!=null) {
+				if ((boolean)request.getAttribute("vittoria")==true) {
+			%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-success" role="alert">
+						<em class="fa fa-lg fa-check-circle">&nbsp;</em> Complimenti +10 XP
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+			<%
+			}else{%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-danger" role="alert">
+						<em class="fa fa-lg fa-times-circle">&nbsp;</em> Hai perso
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+			<%	
+			}}
+			%>
 	</div>
-	<!--/.row-->
+	<!--/.main-->
 
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -164,7 +160,7 @@
 	<script type="text/javascript">
 		setTimeout(function() {
 			$('#delete').remove();
-		}, 1000);
+		}, 2500);
 	</script>
 </body>
 </html>
