@@ -182,9 +182,13 @@
 					</div>
 					<div class="panel-footer">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Scrivi una recensione..."><span class="input-group-btn">
-								<button type="submit" class="btn btn-primary btn-md" method="post" action="/oop17/Recensione" id="btn-chat">Invia</button>
-						</span></div>
+							<form action="/oop17/Recensione" method="post">
+								<input name="recensione" type="text" class="form-control input-md" placeholder="Scrivi una recensione...">
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-primary btn-md" id="btn-chat">Invia</button>
+								</span>
+							</form>
+						</div>
 					</div>
 				</div>
 			
