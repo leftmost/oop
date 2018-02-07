@@ -17,9 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Model.Gioco;
 import Model.Utente;
+import Model.DAO.Concrete.GiocoDAO;
 import Model.DAO.Concrete.TimelineDAO;
 import Model.DAO.Concrete.UtenteDAO;
+import Model.DAO.Interface.GiocoDAOint;
 import Model.DAO.Interface.TimelineDAOint;
 import Model.DAO.Interface.UtenteDAOint;
 
@@ -59,13 +62,22 @@ public class Play extends HttpServlet {
 		//sessione corretta
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
-
+		
+		GiocoDAOint play = new GiocoDAO();
+		try {
+			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
+			request.setAttribute("recensioni",play.recensioniGioco(gioco));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Utente utente = (Utente) session.getAttribute("login");
 		//set parametri
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("tipologia",utente.getTipologia());
 		request.setAttribute("titolo",request.getParameter("Gioco"));
-
+	
+		
 
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();

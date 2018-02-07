@@ -108,7 +108,7 @@
 			<div class="col-xs-6 col-md-3">
 				<div class="panel panel-default">
 					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Scala'">
+						onclick="window.location='/oop17/Play?Gioco=Solitario'">
 						<div class="">
 							<img src="/oop17/images/scala.jpg" class="img-responsive" alt="">
 						</div>
