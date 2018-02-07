@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.3
+-- version 4.7.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Feb 03, 2018 alle 23:03
--- Versione del server: 5.6.35
--- Versione PHP: 5.6.31
+-- Creato il: Feb 07, 2018 alle 17:15
+-- Versione del server: 5.6.38
+-- Versione PHP: 5.6.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,7 +32,6 @@ DROP TABLE IF EXISTS `Gioco`;
 CREATE TABLE `Gioco` (
   `id` int(11) NOT NULL,
   `Titolo` varchar(45) NOT NULL,
-  `Exp` int(11) NOT NULL,
   `Valutazione` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -40,9 +39,15 @@ CREATE TABLE `Gioco` (
 -- Dump dei dati per la tabella `Gioco`
 --
 
-INSERT INTO `Gioco` (`id`, `Titolo`, `Exp`, `Valutazione`) VALUES
-(0, 'COD', 0, 0),
-(1, 'GTA', 0, 5);
+INSERT INTO `Gioco` (`id`, `Titolo`, `Valutazione`) VALUES
+(0, 'Solitario', 0),
+(1, 'Burraco', 0),
+(2, 'Cirulla', 0),
+(3, 'Hearts', 0),
+(4, 'Scopa', 0),
+(5, 'Briscola', 0),
+(6, 'Bestia', 0),
+(7, 'Poker', 0);
 
 -- --------------------------------------------------------
 
@@ -58,15 +63,6 @@ CREATE TABLE `Recensione` (
   `Voto` int(1) NOT NULL DEFAULT '0',
   `Recensione` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dump dei dati per la tabella `Recensione`
---
-
-INSERT INTO `Recensione` (`Utente_Username`, `Gioco_id`, `Approvazione`, `Voto`, `Recensione`) VALUES
-('andcant', 1, 1, 5, ''),
-('loreand', 0, 0, 5, ''),
-('loreand', 1, 1, 5, '');
 
 --
 -- Trigger `Recensione`
@@ -92,7 +88,6 @@ DELIMITER ;
 DROP TABLE IF EXISTS `Timeline`;
 CREATE TABLE `Timeline` (
   `Utente_Username` varchar(15) NOT NULL,
-  `Livello` int(1) NOT NULL DEFAULT '0',
   `Data` date NOT NULL,
   `Exp` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -101,12 +96,13 @@ CREATE TABLE `Timeline` (
 -- Dump dei dati per la tabella `Timeline`
 --
 
-INSERT INTO `Timeline` (`Utente_Username`, `Livello`, `Data`, `Exp`) VALUES
-('alepapa', 0, '2018-02-02', 0),
-('andcant', 0, '2018-01-30', 0),
-('loreand', 0, '2018-01-30', 0),
-('loreand', 0, '2018-02-01', 10),
-('matross', 0, '2018-01-30', 0);
+INSERT INTO `Timeline` (`Utente_Username`, `Data`, `Exp`) VALUES
+('alepapa', '2018-02-02', 0),
+('andcant', '2018-01-30', 0),
+('giulia', '2018-02-07', 0),
+('loreand', '2018-01-30', 0),
+('loreand', '2018-02-01', 10),
+('matross', '2018-01-30', 0);
 
 -- --------------------------------------------------------
 
@@ -131,6 +127,7 @@ CREATE TABLE `Utente` (
 INSERT INTO `Utente` (`Username`, `Email`, `Password`, `Nome`, `Cognome`, `Tipologia`) VALUES
 ('alepapa', 'papaleo@univaq.it', '1234', 'Alessandro', 'Papapleo', 'Utente'),
 ('andcant', 'cantagallo@univaq.it', '1234', 'Andrea', 'Cantagallo', 'Admin'),
+('giulia', 'giulia@univaq.it', '1234', 'Giulia', 'Giulia', 'Utente'),
 ('loreand', 'andreoli@univaq.it', '1234', 'Lorenzo', 'Andreoli', 'Admin'),
 ('matross', 'rossi@univaq.it', '1234', 'Mattia', 'Rossi', 'Moderator');
 
@@ -140,7 +137,7 @@ INSERT INTO `Utente` (`Username`, `Email`, `Password`, `Nome`, `Cognome`, `Tipol
 DROP TRIGGER IF EXISTS `Utente_AFTER_INSERT`;
 DELIMITER $$
 CREATE TRIGGER `Utente_AFTER_INSERT` AFTER INSERT ON `Utente` FOR EACH ROW BEGIN
-INSERT INTO Timeline(Utente_Username,Livello,Data,Exp) VALUES(NEW.Username,'0',CURRENT_DATE,'0');
+INSERT INTO Timeline(Utente_Username,Data,Exp) VALUES(NEW.Username,CURRENT_DATE,'0');
 END
 $$
 DELIMITER ;
@@ -166,7 +163,7 @@ ALTER TABLE `Recensione`
 -- Indici per le tabelle `Timeline`
 --
 ALTER TABLE `Timeline`
-  ADD PRIMARY KEY (`Utente_Username`,`Livello`,`Data`);
+  ADD PRIMARY KEY (`Utente_Username`,`Data`);
 
 --
 -- Indici per le tabelle `Utente`
