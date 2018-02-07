@@ -150,50 +150,55 @@
 			%>
 			
 			<!--/.RECESIONI -->
-			
-			<div class="panel panel-default chat">
-					<div class="panel-heading">
-						Recensioni
-					
-						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
-					<div class="panel-body">
-						<ul>
-							<%
-								
-								ArrayList<Recensione> lista = (ArrayList<Recensione>)request.getAttribute("recensioni");
-								for(Recensione x: lista){
-									
-									
-							%>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle">
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font"><% out.print(x.getUtente_username()); %></strong></div>
-									<p><% out.print(x.getRecensione()); %></p>
-								</div>
-							</li>
-							<%
-							
-							} 
-							
-							%>
-						</ul>
-					</div>
-					<div class="panel-footer">
-						<div class="input-group">
-							<form action="/oop17/Recensione" method="post">
-								<input name="recensione" type="text" class="form-control input-md" placeholder="Scrivi una recensione...">
-								<span class="input-group-btn">
-									<button type="submit" class="btn btn-primary btn-md" id="btn-chat">Invia</button>
-								</span>
-							</form>
-						</div>
-					</div>
+
+		<div class="panel panel-default chat">
+			<div class="panel-heading">
+				Recensioni <span
+					class="pull-right clickable panel-toggle panel-button-tab-left"><em
+					class="fa fa-toggle-up"></em></span>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<%
+						ArrayList<Recensione> lista = (ArrayList<Recensione>) request.getAttribute("recensioni");
+						for (Recensione x : lista) {
+					%>
+					<li class="left clearfix"><span class="chat-img pull-left">
+							<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar"
+							class="img-circle">
+					</span>
+						<div class="chat-body clearfix">
+							<div class="header">
+								<strong class="primary-font">
+									<%
+										out.print(x.getUtente_username());
+									%>
+								</strong>
+							</div>
+							<p>
+								<%
+									out.print(x.getRecensione());
+								%>
+							</p>
+						</div></li>
+					<%
+						}
+					%>
+				</ul>
+			</div>
+			<div class="panel-footer">
+				<div class="input-group">
+					<form action="/oop17/Recensione" method="post">
+						<input name="recensione" type="text" class="form-control input-md"
+							placeholder="Scrivi una recensione..."> <span
+							class="input-group-btn">
+							<button type="submit" class="btn btn-primary btn-md"
+								id="btn-chat">Invia</button>
+						</span>
+					</form>
 				</div>
-			
-			
-			
+			</div>
+		</div>
 	</div>
 	<!--/.main-->
 
