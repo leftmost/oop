@@ -164,18 +164,20 @@
 								for(Recensione x: lista){
 									
 									
-								}
-							
 							%>
 							<li class="left clearfix"><span class="chat-img pull-left">
 								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle">
 								</span>
 								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">John Doe</strong></div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc.</p>
+									<div class="header"><strong class="primary-font"><% out.print(x.getUtente_username()); %></strong></div>
+									<p><% out.print(x.getRecensione()); %></p>
 								</div>
 							</li>
+							<%
 							
+							} 
+							
+							%>
 						</ul>
 					</div>
 					<div class="panel-footer">
