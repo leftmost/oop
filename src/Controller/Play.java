@@ -93,6 +93,15 @@ public class Play extends HttpServlet {
 		//sessione corretta
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
+		
+		GiocoDAOint play = new GiocoDAO();
+		try {
+			Gioco gioco = play.ricercaGioco(request.getParameter("titolo"));
+			request.setAttribute("recensioni",play.recensioniGioco(gioco));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Utente utente = (Utente) session.getAttribute("login");
 		//set parametri
@@ -106,6 +115,8 @@ public class Play extends HttpServlet {
 		//if vittoria=true aumenta punti 
 		if(vittoria) {
 			TimelineDAOint timeline = new TimelineDAO();
+			
+			
 			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();

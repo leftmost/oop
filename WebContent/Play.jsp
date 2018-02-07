@@ -187,16 +187,14 @@
 				</ul>
 			</div>
 			<div class="panel-footer">
+			<form action="/oop17/Recensione" method="post">
 				<div class="input-group">
-					<form action="/oop17/Recensione" method="post">
-						<input name="recensione" type="text" class="form-control input-md"
-							placeholder="Scrivi una recensione..."> <span
-							class="input-group-btn">
-							<button type="submit" class="btn btn-primary btn-md"
-								id="btn-chat">Invia</button>
+							<input type="hidden" name="Gioco" value="<%out.print(request.getAttribute("titolo"));%>">
+							<input type="text" name="recensione" class="form-control input-md" placeholder="Scrivi una recensione..."> <span class="input-group-btn">
+							<button type="submit" class="btn btn-primary btn-md">Invia</button>
 						</span>
-					</form>
-				</div>
+					
+				</div></form>
 			</div>
 		</div>
 	</div>
