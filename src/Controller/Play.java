@@ -66,6 +66,7 @@ public class Play extends HttpServlet {
 		GiocoDAOint play = new GiocoDAO();
 		try {
 			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
+			System.out.println(gioco);
 			request.setAttribute("recensioni",play.recensioniGioco(gioco));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
