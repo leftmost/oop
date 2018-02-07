@@ -17,7 +17,7 @@ import Model.Database.Database;
 public class GiocoDAO implements GiocoDAOint{
 	
 	private static final String
-	INSERIMENTO = "INSERT INTO Gioco(id, titolo, exp) VALUES (?, ?, ?);";
+	INSERIMENTO = "INSERT INTO Gioco(id, titolo) VALUES (?, ?);";
 	
 	private static final String
 	ELIMINA = "DELETE FROM gioco WHERE id = ?;";
@@ -41,7 +41,7 @@ public class GiocoDAO implements GiocoDAOint{
 		    PreparedStatement ps = connection.prepareStatement(INSERIMENTO);
 		    ps.setInt(1, gioco.getId());
 		    ps.setString(2, gioco.getTitolo());
-		    ps.setInt(3, gioco.getExp());
+		    
 
 		    int result = ps.executeUpdate();
 		    

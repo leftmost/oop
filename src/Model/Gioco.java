@@ -4,29 +4,22 @@ public class Gioco {
 	
 	private int id;
 	private String titolo;
-	private int exp;
 	private int valutazione;
 	
 	public Gioco() {}
 	
-	public Gioco(String titolo, int exp) {
-		
-		this.titolo = titolo;
-		this.exp = exp;
-	}
 	
-	public Gioco(int id, String titolo, int exp) {
+	public Gioco(int id, String titolo) {
 		
 		this.id = id;
 		this.titolo = titolo;
-		this.exp = exp;
+		
 	}
 
-	public Gioco(int id, String titolo, int exp, int valutazione) {
+	public Gioco(int id, String titolo, int valutazione) {
 	
 		this.id = id;
 		this.titolo = titolo;
-		this.exp = exp;
 		this.valutazione = valutazione;
 	}
 
@@ -46,14 +39,6 @@ public class Gioco {
 		this.titolo = titolo;
 	}
 
-	public int getExp() {
-		return exp;
-	}
-
-	public void setExp(int exp) {
-		this.exp = exp;
-	}
-
 	public int getValutazione() {
 		return valutazione;
 	}
@@ -64,7 +49,7 @@ public class Gioco {
 
 	@Override
 	public String toString() {
-		return "Gioco [id=" + id + ", titolo=" + titolo + ", exp=" + exp + ", valutazione=" + valutazione + "]";
+		return "Gioco [id=" + id + ", titolo=" + titolo + ", valutazione=" + valutazione + "]";
 	}
 	
 	

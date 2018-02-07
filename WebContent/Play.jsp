@@ -159,6 +159,7 @@
 					<div class="panel-body">
 						<ul>
 							<%
+								
 								ArrayList<Recensione> lista = (ArrayList<Recensione>)request.getAttribute("recensioni");
 								for(Recensione x: lista){
 									
