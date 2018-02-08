@@ -48,21 +48,21 @@ public class Home extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//sessione corretta
-		HttpSession session = request.getSession(false);
-		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
-
+		//Gestione sessione
+		if(!GestorePagine.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 		
-		Utente utente = (Utente) session.getAttribute("login");
-		//set parametri
+		//Frame-public
+		Utente utente = (Utente) request.getSession().getAttribute("login");
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("nome",utente.getNome());
+		request.setAttribute("tipologia",utente.getTipologia());
+		
 		request.setAttribute("cognome",utente.getCognome());
 		request.setAttribute("esperienza",utente.getEsperienza());
-		request.setAttribute("tipologia",utente.getTipologia());
-		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Home.jsp");
+		
+		
+		//Home.jsp
+		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/Home.jsp");
 		rd.forward(request, response);
 	}
 
