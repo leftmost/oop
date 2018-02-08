@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Model.Gioco"%>
+<%@page import="Model.DAO.Interface.GiocoDAOint"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +78,7 @@
 			<%
 				if (!request.getAttribute("tipologia").equals("Utente")) {
 			%>
-			<li><a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione
+			<li><a href="/oop17/GRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione
 					Recensioni</a></li>
 			<%
 				}
@@ -105,6 +108,12 @@
 		<!--Lista Giochi-->
 		<!--row-->
 		<div class="row">
+		
+					<%
+						ArrayList<Gioco> lista = (ArrayList<Gioco>) request.getAttribute("giocoDAO");
+						for (Gioco x : lista) {
+					%>
+					
 			<div class="col-xs-6 col-md-3">
 				<div class="panel panel-default">
 					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
@@ -112,90 +121,16 @@
 						<div class="">
 							<img src="/oop17/images/scala.jpg" class="img-responsive" alt="">
 						</div>
-						<div class="panel-footer"><h4>Solitario</h4></div>
+						<div class="panel-footer"><h4><% out.print(x.getTitolo()); %></h4></div>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Burraco'">
-						<div class="">
-							<img src="/oop17/images/burraco.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Burraco</h4></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Cirulla'">
-						<div class="">
-							<img src="/oop17/images/cirulla.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Cirulla</h4></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Hearts'">
-						<div class="">
-							<img src="/oop17/images/hearts.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Hearts</h4></div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Scopa'">
-						<div class="">
-							<img src="/oop17/images/scopa.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Scopa</h4></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Briscola'">
-						<div class="">
-							<img src="/oop17/images/briscola.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Briscola</h4></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Bestia'">
-						<div class="">
-							<img src="/oop17/images/bestia.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Bestia</h4></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=Poker'">
-						<div class="">
-							<img src="/oop17/images/poker.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4>Poker</h4></div>
-					</div>
-				</div>
-			</div>
+			
+					<%
+						}
+					%>
+			
+			
 		</div>
 
 		<!--/.row-->
