@@ -59,26 +59,25 @@ public class Play extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//sessione corretta
-		HttpSession session = request.getSession(false);
-		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
+		///Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
+		
+		//Frame-public
+		Utente utente = (Utente) request.getSession().getAttribute("login");
+		request.setAttribute("username",utente.getUsername());
+		request.setAttribute("nome",utente.getNome());
+		request.setAttribute("tipologia",utente.getTipologia());
+		request.setAttribute("active","Play");
+		//.Frame
 		
 		GiocoDAOint play = new GiocoDAO();
 		try {
 			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
 			request.setAttribute("recensioni",play.recensioniGioco(gioco));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Utente utente = (Utente) session.getAttribute("login");
-		//set parametri
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("tipologia",utente.getTipologia());
-		request.setAttribute("titolo",request.getParameter("Gioco"));
-	
 		
-
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
 		RequestDispatcher rd = sc.getRequestDispatcher("/Play.jsp");

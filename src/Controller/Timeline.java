@@ -20,14 +20,14 @@ import Model.Utente;
 @WebServlet("/Timeline")
 public class Timeline extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Timeline() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Timeline() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -47,22 +47,23 @@ public class Timeline extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//sessione corretta
-		HttpSession session = request.getSession(false);
-		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
-
-		Utente utente = (Utente) session.getAttribute("login");
-		//set default parametri
+		//Frame-public
+		Utente utente = (Utente) request.getSession().getAttribute("login");
 		request.setAttribute("username",utente.getUsername());
+		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("tipologia",utente.getTipologia());
-		
-		
+		request.setAttribute("active","Timeline");
+		//.Frame
+
+
 		//recupera timeline
 		Model.Timeline timeline = utente.getTimeline();
 		//set timeline
 		request.setAttribute("timeline",timeline);
-		
+
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
 		RequestDispatcher rd = sc.getRequestDispatcher("/Timeline.jsp");

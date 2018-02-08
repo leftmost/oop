@@ -18,30 +18,44 @@
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="/oop17/Home"><em
+			<li <%if(request.getAttribute("active").equals("Home")){out.print(" class=\"active\"");}%>><a href="/oop17/Home"><em
 					class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-			<li>
+			<li <%if(request.getAttribute("active").equals("Giochi")){out.print("class=\" active\"");}%>>
 				<a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
 			</li>
-			<li>
+			<li <%if(request.getAttribute("active").equals("Profilo")){out.print(" class=\"active\"");}%>>
 				<a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
 			</li>
-			<li>
+			<li <%if(request.getAttribute("active").equals("Timeline")){out.print(" class=\"active\"");}%>>
 				<a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
-			<li>
-				<a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
+			<li <%if(request.getAttribute("active").equals("Gestione Utenti")){out.print(" class=\"active\"");}%>>
+				<a href="/oop17/GestioneUtenti"><em class="fa fa-users">&nbsp;</em>Gestione Utenti</a>
 			</li>
 			<%}%>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
-			<li>
+			<li <%if(request.getAttribute("active").equals("Gestione Moderatori")){out.print(" class=\"active\"");}%>>
+				<a href="/oop17/GModeratori"><em class="fa fa-users">&nbsp;</em>Gestione Moderatori</a>
+			</li>
+			<%}%>
+			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
+			<li <%if(request.getAttribute("active").equals("Gestione Recensioni")){out.print(" class=\"active\"");}%>>
 				<a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
 			</li>
 			<%}%>
 			<%if(request.getAttribute("tipologia").equals("Admin")){%>
-			<li>
-				<a href="/oop17/gestiooneGiochi"><em class="fa fa-list">&nbsp;</em>Gestione Giochi</a>
+			<li class="parent " <%if(request.getAttribute("active").equals("Gestione Giochi")){out.print(" class=\"active\"");}%>><a data-toggle="collapse" href="#sub-item-1">
+				<em class="fa fa-navicon">&nbsp;</em> Gestione Giochi <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
+				</a>
+				<ul class="children collapse" id="sub-item-1">
+					<li><a class="" href="#">
+						<span class="fa fa-arrow-right">&nbsp;</span> Inserisci Gioco
+					</a></li>
+					<li><a class="" href="#">
+						<span class="fa fa-arrow-right">&nbsp;</span> Modifica Gioco
+					</a></li>
+				</ul>
 			</li>
 			<%}%>
 			<li>

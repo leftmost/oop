@@ -18,16 +18,16 @@ import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
 
 /**
- * Servlet implementation class Profilo
+ * Servlet implementation class GestioneUtenti
  */
-@WebServlet("/Profilo")
-public class Profilo extends HttpServlet {
+@WebServlet("/GestioneUtenti")
+public class GestioneUtenti extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Profilo() {
+	public GestioneUtenti() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -58,44 +58,33 @@ public class Profilo extends HttpServlet {
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("tipologia",utente.getTipologia());
-		request.setAttribute("active","Profilo");
+		request.setAttribute("active","Gestione Utenti");
 		//.Frame
-		
-		//set parametri Profilo
-		request.setAttribute("cognome",utente.getCognome());
+
+		//set parametri
+		request.setAttribute("username",utente.getUsername());
+		request.setAttribute("tipologia",utente.getTipologia());
+		UtenteDAOint utenteDAO = new UtenteDAO();
+		try {
+			request.setAttribute("utenti",utenteDAO.listaUtentiBase());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Profilo.jsp");
+		RequestDispatcher rd = sc.getRequestDispatcher("/gestioneUtente.jsp");
 		rd.forward(request, response);
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String utente=request.getParameter("utente");
 
-		//ricezione parametri
-		String nome=request.getParameter("nome");
-		String cognome=request.getParameter("cognome");
+		UtenteDAOint utenteDAO = new UtenteDAO();
 
-		//modifica utente
-		HttpSession session = request.getSession();
-		Utente utente=(Utente) session.getAttribute("login");
-		utente.setNome(nome);
-		utente.setCognome(cognome);
-		session.setAttribute("login", utente);
-
-		//salvataggio db
-		UtenteDAOint salvaModifiche=new UtenteDAO();
-		try {
-			salvaModifiche.aggAnagraficaUser(utente);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		request.setAttribute("modifica",true);
 		doGet(request, response);
 	}
 

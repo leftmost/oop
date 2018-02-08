@@ -49,13 +49,15 @@ public class Home extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//Gestione sessione
-		if(!GestorePagine.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 		
 		//Frame-public
 		Utente utente = (Utente) request.getSession().getAttribute("login");
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("tipologia",utente.getTipologia());
+		request.setAttribute("active","Home");
+		//.Frame
 		
 		request.setAttribute("cognome",utente.getCognome());
 		request.setAttribute("esperienza",utente.getEsperienza());

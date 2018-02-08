@@ -51,18 +51,18 @@ public class gestioneRecensioni extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//sessione corretta
-		HttpSession session = request.getSession(false);
-		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
-		Utente utente = (Utente) session.getAttribute("login");
-		//controllo accesso
-		if(utente.getTipologia().equals("Utente")){response.sendRedirect("/oop17/Logout"); return;}
-		//set parametri
+		//Frame-public
+		Utente utente = (Utente) request.getSession().getAttribute("login");
 		request.setAttribute("username",utente.getUsername());
+		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("tipologia",utente.getTipologia());
-		
-		
+		request.setAttribute("active","Gestione Recensioni");
+		//.Frame
+
+
 		try {
 			RecensioneDAOint recensione = new RecensioneDAO();
 			request.setAttribute("recensioni",recensione.daApprovare());
@@ -81,18 +81,18 @@ public class gestioneRecensioni extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+
+
 		String utente=request.getParameter("utente");
 		int gioco =Integer.parseInt(request.getParameter("gioco"));
-		
+
 		RecensioneDAOint recensione = new RecensioneDAO();
 		try {
 			recensione.approvaRecensione(utente, gioco);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		doGet(request, response);
 	}
 
