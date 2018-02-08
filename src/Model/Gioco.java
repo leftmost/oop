@@ -8,6 +8,12 @@ public class Gioco {
 	
 	public Gioco() {}
 	
+	public Gioco(String titolo) {
+		
+		this.titolo = titolo;
+		
+	}
+	
 	
 	public Gioco(int id, String titolo) {
 		

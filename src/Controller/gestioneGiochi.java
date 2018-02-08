@@ -62,15 +62,7 @@ public class gestioneGiochi extends HttpServlet {
 		
 		
 		
-		String titolo = request.getParameter("nuovoGioco");
-		Gioco game = new Gioco(8,titolo);
-		GiocoDAOint gioco = new GiocoDAO();
-		try {
-			gioco.inserisciGioco(game);
-		} catch (SQLException e) {
 		
-			e.printStackTrace();
-		}
 		
 		
 		
@@ -87,7 +79,23 @@ public class gestioneGiochi extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		
+		
+		String titolo = request.getParameter("nuovoGioco");
+		Gioco game = new Gioco(titolo);
+		GiocoDAOint gioco = new GiocoDAO();
+		System.out.println(game);
+		try {
+			gioco.inserisciGioco(game);
+			boolean bool = true;
+			request.setAttribute("mex",bool);
+		} catch (SQLException e) {
+			boolean bool = false;
+			request.setAttribute("mex",bool);
+			e.printStackTrace();
+		}
+		
 		doGet(request, response);
 	}
 

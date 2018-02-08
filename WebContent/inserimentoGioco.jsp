@@ -122,9 +122,32 @@
 				</div>
 			</div>
 			
+		
+			
 			
 			<!-- /.col-->
 		</div>
+			<%
+			if (request.getAttribute("mex")!=null) {
+				if ((boolean)request.getAttribute("mex")==true) {
+			%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-success" role="alert">
+						<em class="fa fa-lg fa-check-circle">&nbsp;</em> Gioco inserito con successo!
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+			<%
+			}else{%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-danger" role="alert">
+						<em class="fa fa-lg fa-times-circle">&nbsp;</em> Gioco già presente!
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+			<%	
+			}}
+			%>
 		<!-- /.FORM -->
 	</div>
 	<!--/.row-->
@@ -137,6 +160,11 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('#delete').remove();
+		}, 2500);
+	</script>
 
 </body>
 </html>
