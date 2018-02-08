@@ -14,6 +14,7 @@
 		<![endif]-->
 	</head>
 	<body>
+		<!-- FORM -->
 		<div class="row">
 			<div
 				class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
@@ -43,7 +44,7 @@
 			</div>
 			<!-- /.col-->
 		</div>
-		<!-- /.row -->
+		<!-- /.FORM -->
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 	</body>

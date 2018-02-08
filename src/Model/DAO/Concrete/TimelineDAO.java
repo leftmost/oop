@@ -19,7 +19,10 @@ public class TimelineDAO implements TimelineDAOint {
 	
 	private static final String
 	AUM_EXP = "UPDATE timeline SET exp=exp+10 WHERE utente_username=? AND Data=DATE(NOW());";
-	
+
+	private static final String
+	AUM_LIV = "UPDATE timeline SET exp=exp+100 WHERE utente_username=? AND Data=DATE(NOW());";
+
 	private static final String
 	INSERT = "INSERT INTO Timeline (utente_username, data, exp) VALUES (?,Date(NOW()),?);";
 
@@ -60,6 +63,21 @@ public class TimelineDAO implements TimelineDAOint {
 		connection.close();
 		return result;
 	}
+	
+	//aumenta l'esperienza dell'user
+		@Override
+		public int aumentaLiv(String username) throws SQLException {
+			Connection connection = Database.openConnection();
+			PreparedStatement ps = connection.prepareStatement(AUM_LIV);
+			ps.setString(1, username);
+			
+
+			int result = ps.executeUpdate();
+
+			ps.close();
+			connection.close();
+			return result;
+		}
 	
 	
 	//Inserisce una nuova riga nella tabella della Timeline

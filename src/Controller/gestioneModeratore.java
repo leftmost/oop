@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,24 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Model.Gioco;
 import Model.Utente;
-import Model.DAO.Concrete.GiocoDAO;
-import Model.DAO.Concrete.RecensioneDAO;
-import Model.DAO.Interface.GiocoDAOint;
-import Model.DAO.Interface.RecensioneDAOint;
+import Model.DAO.Concrete.UtenteDAO;
+import Model.DAO.Interface.UtenteDAOint;
 
 /**
- * Servlet implementation class gestioneRecensioni
+ * Servlet implementation class gestioneModeratore
  */
-@WebServlet("/gestioneRecensioni")
-public class gestioneRecensioni extends HttpServlet {
+@WebServlet("/gestioneModeratore")
+public class gestioneModeratore extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public gestioneRecensioni() {
+	public gestioneModeratore() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -63,37 +61,28 @@ public class gestioneRecensioni extends HttpServlet {
 		//set parametri
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("tipologia",utente.getTipologia());
-		
-		
+		UtenteDAOint utenteDAO = new UtenteDAO();
 		try {
-			RecensioneDAOint recensione = new RecensioneDAO();
-			request.setAttribute("recensioni",recensione.daApprovare());
+			request.setAttribute("utenti",utenteDAO.listaUtentiBase());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		//Carica gestioneRecensioni.jsp
+		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/gestioneRecensioni.jsp");
+		RequestDispatcher rd = sc.getRequestDispatcher("/gestioneUtente.jsp");
 		rd.forward(request, response);
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+
 		String utente=request.getParameter("utente");
-		int gioco =Integer.parseInt(request.getParameter("gioco"));
 		
-		RecensioneDAOint recensione = new RecensioneDAO();
-		try {
-			recensione.approvaRecensione(utente, gioco);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		UtenteDAOint utenteDAO = new UtenteDAO();
 		
 		doGet(request, response);
 	}

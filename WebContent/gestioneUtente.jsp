@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Model.Utente"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,26 +62,18 @@
 					Dashboard</a></li>
 			<li><a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
 			</li>
-			<li class="active"><a href="/oop17/Profilo"><em
-					class="fa fa-address-card">&nbsp;</em>Profilo</a></li>
+			<li><a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
+			</li>
 			<li><a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
-			<%
-				if (!request.getAttribute("tipologia").equals("Utente")) {
-			%>
-			<li><a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
+			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
+			<li><a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>Gestione Utenti</a>
 			</li>
-			<%
-				}
-			%>
-			<%
-				if (!request.getAttribute("tipologia").equals("Utente")) {
-			%>
-			<li><a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione
-					Recensioni</a></li>
-			<%
-				}
-			%>
+			<%}%>
+			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
+			<li class="active"><a href="/oop17/gestioneRecensioni"><em
+					class="fa fa-list">&nbsp;</em>Gestione Recensioni</a></li>
+			<%}%>
 			<li><a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
 			</li>
 		</ul>
@@ -91,67 +85,66 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Profilo</li>
+				<li class="active">Gestione utenti</li>
 			</ol>
 		</div>
-		<!--/.row-->
+
+		<!--TITOLO-->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header"></h1>
+				<h1 class="page-header">Gestione utenti</h1>
 			</div>
 		</div>
-		<!--/.row-->
-		<!-- anagrafica -->
+		<!--/.TITOLO-->
+
+		<!--BODY-->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						Modifica <span
-							class="pull-right clickable panel-toggle panel-button-tab-left"><em
-							class="fa fa-toggle-up"></em></span>
-					</div>
-					<div class="panel-body">
-						<div class="col-md-10 col-md-offset-1">
-							<form role="form" action="/oop17/Profilo" method="Post">
-								<fieldset>
-									<div class="form-group">
-										<input class="form-control" name="nome" type="text" required
-											value="<%=request.getAttribute("nome")%>">
-									</div>
-
-									<div class="form-group">
-										<input class="form-control" name="cognome" type="text"
-											required value="<%=request.getAttribute("cognome")%>">
-									</div>
-
-									<div class="form-group text-center">
-										<input type="submit" class="btn btn-primary"
-											style="padding: 8px 50px; margin-top: 15px;" value="Salva">
-									</div>
-								</fieldset>
-							</form>
-						</div>
-					</div>
-				</div>
-				<%
-										if (request.getAttribute("modifica") != null) {
-									%>
-									<div class="form-group">
-										<div id='delete' class="alert bg-success" role="alert">
-											<em class="fa fa-lg fa-warning">&nbsp;</em> Salvataggio
-											effettuato <a href="#" class="pull-right"><em
-												class="fa fa-lg fa-close"></em></a>
-										</div>
-									</div>
-									<%
-										}
-									%>
+			<div class="col-lg-12">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>Utente</th>
+							<th>Email</th>
+							<th>Nome</th>
+							<th>Cognome</th>
+							<th colspan="2"></th>
+						</tr>
+					</thead>
+					<tbody>
+					<%
+						ArrayList<Utente> lista = (ArrayList<Utente>) request.getAttribute("utenti");
+						for (Utente x : lista) {
+					%>
+					<tr>
+					<th><%out.print(x.getUsername());%></th>
+					<th><%out.print(x.getEmail());%></th>
+					<th><%out.print(x.getNome());%></th>
+					<th><%out.print(x.getCognome());%></th>
+				
+					<th class="text-center">
+						<form method="post">
+							<input type="hidden" name="promuovi" value="<%out.print(x.getUsername());%>">
+							<input class="btn btn-success" type="submit" value="Promuovi">
+						</form>
+					</th>
+					<th class="text-center">
+						<form method="post">
+							<input type="hidden" name="retrocedi" value="<%out.print(x.getUsername());%>">
+							<input class="btn btn-danger" type="submit" value="Retrocedi">
+						</form>
+					</th>
+					</tr>	
+					<%}%>
+					</tbody>
+					
+				</table>
 			</div>
-			<!--/.anagrafica-->
 		</div>
-		<!--/.col-->
+		<!--/.BODY-->
 	</div>
 	<!--/.row-->
+	
+	
 
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -161,10 +154,6 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
-	<script type="text/javascript">
-      setTimeout(function(){
-      $('#delete').remove();
-      }, 1000);
-      </script>";
+
 </body>
 </html>

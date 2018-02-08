@@ -16,6 +16,8 @@ public interface TimelineDAOint {
 	
 	public int aumentaExp(String username) throws SQLException;
 	
+	public int aumentaLiv(String username) throws SQLException;
+	
 	public int aggiornaTimeline(Utente utente) throws SQLException;
 	
 	//++++++++++++TEST+++++++++

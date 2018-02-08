@@ -79,7 +79,7 @@
 			<%
 				if (!request.getAttribute("tipologia").equals("Utente")) {
 			%>
-			<li><a href="/oop17/GRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione
+			<li><a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione
 					Recensioni</a></li>
 			<%
 				}

@@ -76,6 +76,11 @@
 				<a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
 			</li>
 			<%}%>
+			<%if(request.getAttribute("tipologia").equals("Admin")){%>
+			<li>
+				<a href="/oop17/gestiooneGiochi"><em class="fa fa-list">&nbsp;</em>Gestione Giochi</a>
+			</li>
+			<%}%>
 			<li>
 				<a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
 			</li>

@@ -51,36 +51,33 @@
 		<div class="divider"></div>
 		<form role="search">
 			<div class="form-group">
-				<input type="text" class="form-control" disabled
-					placeholder="<%=request.getAttribute("tipologia")%>">
+				<input type="text" class="form-control" disabled placeholder="<%=request.getAttribute("tipologia")%>">
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li><a href="/oop17/Home"><em class="fa fa-dashboard">&nbsp;</em>
-					Dashboard</a></li>
-			<li><a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
+			<li class="active"><a href="/oop17/Home"><em
+					class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li>
+				<a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
 			</li>
-			<li class="active"><a href="/oop17/Profilo"><em
-					class="fa fa-address-card">&nbsp;</em>Profilo</a></li>
-			<li><a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
+			<li>
+				<a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
 			</li>
-			<%
-				if (!request.getAttribute("tipologia").equals("Utente")) {
-			%>
-			<li><a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
+			<li>
+				<a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
-			<%
-				}
-			%>
-			<%
-				if (!request.getAttribute("tipologia").equals("Utente")) {
-			%>
-			<li><a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione
-					Recensioni</a></li>
-			<%
-				}
-			%>
-			<li><a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
+			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
+			<li>
+				<a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
+			</li>
+			<%}%>
+			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
+			<li>
+				<a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
+			</li>
+			<%}%>
+			<li>
+				<a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
 			</li>
 		</ul>
 	</div>
@@ -91,7 +88,7 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Profilo</li>
+				<li class="active">Inserimento</li>
 			</ol>
 		</div>
 		<!--/.row-->
@@ -100,56 +97,37 @@
 				<h1 class="page-header"></h1>
 			</div>
 		</div>
-		<!--/.row-->
-		<!-- anagrafica -->
+		<!-- FORM -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						Modifica <span
-							class="pull-right clickable panel-toggle panel-button-tab-left"><em
-							class="fa fa-toggle-up"></em></span>
-					</div>
+			<div
+				class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+					<div class="panel-heading">Inserimento Gioco</div>
 					<div class="panel-body">
-						<div class="col-md-10 col-md-offset-1">
-							<form role="form" action="/oop17/Profilo" method="Post">
-								<fieldset>
-									<div class="form-group">
-										<input class="form-control" name="nome" type="text" required
-											value="<%=request.getAttribute("nome")%>">
-									</div>
-
-									<div class="form-group">
-										<input class="form-control" name="cognome" type="text"
-											required value="<%=request.getAttribute("cognome")%>">
-									</div>
-
-									<div class="form-group text-center">
-										<input type="submit" class="btn btn-primary"
-											style="padding: 8px 50px; margin-top: 15px;" value="Salva">
-									</div>
+						<form role="form" action="/oop17/Login" method="Post">
+							<fieldset>
+								<div class="form-group col-md-10 col-md-offset-1">
+									<input class="form-control" placeholder="Nome" name="titolo" type="text" required value="">
+								</div>
+								
+								<div class="form-group col-md-10 col-md-offset-1">
+									<input class="form-control" name="img" type="image" required>
+								</div>
+								
+								<div class="form-group text-center">
+									<input type="submit"  class="btn btn-primary" style="padding: 8px 103px; margin-top:15px;" value="Inserisci" >
+								</div>
 								</fieldset>
-							</form>
+						</form>
+						<div class="form-group  col-md-12 text-center">
+							Non sei registrato? <a href="/oop17/SignUp">Registrati</a>
 						</div>
 					</div>
 				</div>
-				<%
-										if (request.getAttribute("modifica") != null) {
-									%>
-									<div class="form-group">
-										<div id='delete' class="alert bg-success" role="alert">
-											<em class="fa fa-lg fa-warning">&nbsp;</em> Salvataggio
-											effettuato <a href="#" class="pull-right"><em
-												class="fa fa-lg fa-close"></em></a>
-										</div>
-									</div>
-									<%
-										}
-									%>
 			</div>
-			<!--/.anagrafica-->
+			<!-- /.col-->
 		</div>
-		<!--/.col-->
+		<!-- /.FORM -->
 	</div>
 	<!--/.row-->
 
@@ -161,10 +139,6 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
-	<script type="text/javascript">
-      setTimeout(function(){
-      $('#delete').remove();
-      }, 1000);
-      </script>";
+
 </body>
 </html>

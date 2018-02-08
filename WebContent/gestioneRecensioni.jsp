@@ -71,7 +71,7 @@
 			</li>
 			<%}%>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
-			<li class="active"><a href="/oop17/GRecensioni"><em
+			<li class="active"><a href="/oop17/gestioneRecensioni"><em
 					class="fa fa-list">&nbsp;</em>Gestione Recensioni</a></li>
 			<%}%>
 			<li><a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>

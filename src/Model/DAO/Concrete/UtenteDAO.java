@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
+import Model.Recensione;
 import Model.Timeline;
 import Model.Utente;
 import Model.DAO.Interface.TimelineDAOint;
@@ -30,6 +33,9 @@ public class UtenteDAO implements UtenteDAOint {
 
 	private static final String
 	USERNAME_ESISTENTE = "SELECT * FROM utente WHERE username = ?;";
+	
+	private static final String
+	UTENTI_BASE = "SELECT * FROM Utente WHERE tipologia = 'Utente';";
 	
 	
 
@@ -155,6 +161,21 @@ public class UtenteDAO implements UtenteDAOint {
 		result.close();
 		connection.close();
 		return usernameEsistente;
+	}
+
+	@Override
+	public ArrayList<Utente> listaUtentiBase() throws SQLException {
+		ArrayList<Utente> utentiBase = new ArrayList<>();
+		Connection connection = Database.openConnection();
+		Statement s = connection.createStatement();
+		ResultSet rset = s.executeQuery(UTENTI_BASE);
+		while (rset.next()){
+			utentiBase.add(new Utente(rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4),rset.getString(5),rset.getString(6)));
+		}
+		s.close();
+		rset.close();
+		connection.close();
+		return utentiBase;
 	}
 
 }
