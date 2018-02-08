@@ -2,14 +2,19 @@ package Model.DAO.Concrete;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
+import Model.Gioco;
 import Model.Recensione;
 import Model.DAO.Interface.RecensioneDAOint;
 import Model.Database.Database;
 
 public class RecensioneDAO implements RecensioneDAOint{
 
+	
 	
 	private static final String
 	INSERIMENTO = "INSERT INTO Recensione(utente_username, gioco_id, voto, recensione) VALUES (?, ?, ?, ?);";
@@ -19,6 +24,9 @@ public class RecensioneDAO implements RecensioneDAOint{
 	
 	private static final String
 	MOD = "UPDATE Recensione SET recensione=?, voto=? WHERE utente_username=? AND gioco_id=?;";
+	
+	private static final String
+	DA_APPROVARE = "SELECT * FROM Recensione WHERE Approvazione='0'";
 	
 	//inserimento nuova recensione
 	@Override
@@ -40,13 +48,14 @@ public class RecensioneDAO implements RecensioneDAOint{
 	
 	//approvazione recensione
 	@Override
-	public int approvaRecensione(Recensione recensione) throws SQLException {
+	public int approvaRecensione(String utente,int idGioco) throws SQLException {
+		
 		
 		 	Connection connection = Database.openConnection();
 		    PreparedStatement ps = connection.prepareStatement(APPROVA);
 		   
-		    ps.setString(1, recensione.getUtente_username());
-		    ps.setInt(2, recensione.getGioco_id());
+		    ps.setString(1,utente);
+		    ps.setInt(2,idGioco);
 		   
 		    int result = ps.executeUpdate();
 		    
@@ -72,5 +81,20 @@ public class RecensioneDAO implements RecensioneDAOint{
 		    ps.close();
 		    connection.close();
 		    return result;
+	}
+
+	@Override
+	public ArrayList<Recensione> daApprovare() throws SQLException {
+		ArrayList<Recensione> recensioni = new ArrayList<>();
+		Connection connection = Database.openConnection();
+		Statement s = connection.createStatement();
+		ResultSet rset = s.executeQuery(DA_APPROVARE);
+		while (rset.next()){
+			recensioni.add(new Recensione(rset.getString(1), rset.getInt(2), rset.getInt(3),rset.getString(5)));
+		}
+		s.close();
+		rset.close();
+		connection.close();
+		return recensioni;
 	}
 }
