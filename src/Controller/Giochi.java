@@ -1,6 +1,8 @@
 package Controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -12,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Model.Gioco;
 import Model.Utente;
+import Model.DAO.Concrete.GiocoDAO;
+import Model.DAO.Concrete.RecensioneDAO;
+import Model.DAO.Interface.*;
 
 /**
  * Servlet implementation class Giochi
@@ -56,10 +62,22 @@ public class Giochi extends HttpServlet {
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("tipologia",utente.getTipologia());
 		
+		
+		
+		
+		GiocoDAOint giochi = new GiocoDAO();
+		try {
+			ArrayList<Gioco> giocoDAO = giochi.tuttiGiochi();
+			request.setAttribute("giocoDAO",giocoDAO);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
 		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Giochi.jsp");
-		rd.forward(request, response);
+				ServletContext sc = request.getSession().getServletContext();
+				RequestDispatcher rd = sc.getRequestDispatcher("/Giochi.jsp");
+				rd.forward(request, response);
 	}
 
 	/**

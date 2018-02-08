@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Model.Recensione"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,33 +53,28 @@
 		<div class="divider"></div>
 		<form role="search">
 			<div class="form-group">
-				<input type="text" class="form-control" disabled placeholder="<%=request.getAttribute("tipologia")%>">
+				<input type="text" class="form-control" disabled
+					placeholder="<%=request.getAttribute("tipologia")%>">
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="/oop17/Home"><em
-					class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-			<li>
-				<a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
+			<li><a href="/oop17/Home"><em class="fa fa-dashboard">&nbsp;</em>
+					Dashboard</a></li>
+			<li><a href="/oop17/Giochi"><em class="fa fa-play-circle">&nbsp;</em>Giochi</a>
 			</li>
-			<li>
-				<a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
+			<li><a href="/oop17/Profilo"><em class="fa fa-address-card">&nbsp;</em>Profilo</a>
 			</li>
-			<li>
-				<a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
+			<li><a href="/oop17/Timeline"><em class="fa fa-signal">&nbsp;</em>Timeline</a>
 			</li>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
-			<li>
-				<a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
+			<li><a href="/oop17/GUtenti"><em class="fa fa-users">&nbsp;</em>GestioneUtenti</a>
 			</li>
 			<%}%>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
-			<li>
-				<a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>
-			</li>
+			<li class="active"><a href="/oop17/GRecensioni"><em
+					class="fa fa-list">&nbsp;</em>Gestione Recensioni</a></li>
 			<%}%>
-			<li>
-				<a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
+			<li><a href="/oop17/Logout"><em class="fa fa-power-off">&nbsp;</em>Logout</a>
 			</li>
 		</ul>
 	</div>
@@ -88,46 +85,54 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Inserimento</li>
+				<li class="active">Gestione Recensioni</li>
 			</ol>
 		</div>
-		<!--/.row-->
+
+		<!--TITOLO-->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header"></h1>
+				<h1 class="page-header">Approvazione recensioni</h1>
 			</div>
 		</div>
-		<!-- FORM -->
+		<!--/.TITOLO-->
+
+		<!--BODY-->
 		<div class="row">
-			<div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
-				<div class="login-panel panel panel-default">
-					<div class="panel-heading">Inserimento Gioco</div>
-					<div class="panel-body">
-						<form role="form" action="/oop17/gestioneGiochi" method="Post">
-							<fieldset>
-								<div class="form-group col-md-10 col-md-offset-1">
-									<input class="form-control" placeholder="Nome gioco" name="nuovoGioco" type="text" required value="">
-								</div>
-								
-								<div class="form-group col-md-10 col-md-offset-1">
-									<input class="form-control" name="img" type="hidden" required>
-								</div>
-								
-								<div class="form-group text-center">
-									<input type="submit"  class="btn btn-primary" style="padding: 8px 103px; margin-top:15px;" value="Inserisci" >
-								</div>
-							</fieldset>
+			<div class="col-lg-12">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>Utente</th>
+							<th>Testo</th>
+							<th>Approvazione</th>
+						</tr>
+					</thead>
+					<tbody>
+					<%
+						ArrayList<Recensione> lista = (ArrayList<Recensione>) request.getAttribute("recensioni");
+						for (Recensione x : lista) {
+					%>
+					<th><%out.print(x.getUtente_username());%></th>
+					<th><%out.print(x.getRecensione());%></th>
+					<th>
+						<form method="post">
+							<input type="hidden" name="utente" value="<%out.print(x.getUtente_username());%>">
+							<input type="hidden" name="gioco" value="<%out.print(x.getGioco_id());%>">
+							<input class="btn btn-success" type="submit" value="Approva">
 						</form>
-					</div>
-				</div>
+					</th>	
+					<%}%>
+					</tbody>
+					
+				</table>
 			</div>
-			
-			
-			<!-- /.col-->
 		</div>
-		<!-- /.FORM -->
+		<!--/.BODY-->
 	</div>
 	<!--/.row-->
+	
+	
 
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

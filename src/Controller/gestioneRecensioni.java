@@ -13,11 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Model.Gioco;
+
 import Model.Utente;
-import Model.DAO.Concrete.GiocoDAO;
 import Model.DAO.Concrete.RecensioneDAO;
-import Model.DAO.Interface.GiocoDAOint;
 import Model.DAO.Interface.RecensioneDAOint;
 
 /**

@@ -78,7 +78,7 @@
 			<%}%>
 			<%if(request.getAttribute("tipologia").equals("Admin")){%>
 			<li>
-				<a href="/oop17/gestiooneGiochi"><em class="fa fa-list">&nbsp;</em>Gestione Giochi</a>
+				<a href="/oop17/gestioneGiochi"><em class="fa fa-list">&nbsp;</em>Gestione Giochi</a>
 			</li>
 			<%}%>
 			<li>
