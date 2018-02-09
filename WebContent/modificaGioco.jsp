@@ -78,7 +78,7 @@
 					<tr>
 					<th><%out.print(x.getTitolo());%></th>
 					<th><%out.print(x.getValutazione());%></th>
-					<th>
+					<th class="text-center">
 						<form method="post">
 							<input type="hidden" name="titolo" value="<%out.print(x.getTitolo());%>">
 							<input class="btn btn-danger" type="submit" value="Elimina">

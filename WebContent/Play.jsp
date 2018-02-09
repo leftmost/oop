@@ -12,6 +12,7 @@
 <link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
+<link href="css/stelle.css" rel="stylesheet" type="text/css">
 
 <!--Custom Font-->
 <link
@@ -70,7 +71,7 @@
 						<form role="form" action="/oop17/Play" method="post">
 							<div class="panel-footer">
 								<input type="hidden" name="Gioco" value="<%=request.getAttribute("titolo")%>">
-								<button type="submit" class="btn btn-success"><i class="fa fa-play-circle"></i> Play</button>
+								<button type="submit" class="btn btn-success btn-lg"><i class="fa fa-play-circle"></i> Play</button>
 							</div>
 						</form>
 					</div>
@@ -103,6 +104,8 @@
 			}}
 			%>
 			
+			<!-- VOTAZIONE -->
+
 			<!--/.RECESIONI -->
 
 		<div class="panel panel-default chat">
@@ -146,8 +149,8 @@
 			<div class="panel-footer">
 				<form action="/oop17/Recensione" method="post">
 					<div class="input-group">
-								<input type="text" name="recensione" class="form-control input-md" placeholder="In attesa di Moderazione..."> <span class="input-group-btn">
-								<button type="submit" disabled class="btn btn-primary btn-md">Invia</button>
+								<input type="text" name="recensione" disabled class="form-control input-md" placeholder="In attesa di Moderazione..."> <span class="input-group-btn">
+								<button type="submit" disabled class="btn btn-warning btn-md"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></button>
 							</span>
 						
 					</div>
@@ -156,6 +159,27 @@
 			<%}else{%>
 			<div class="panel-footer">
 				<form action="/oop17/Recensione" method="post">
+					<!-- VOTAZIONE -->
+					<div class="text-center">
+						<div class="rating">
+						    <input name="rating" type="radio" id="c4l-rate1" value="1"/>
+						    <label for="c4l-rate1"></label>
+						 
+						    <input name="rating" type="radio" id="c4l-rate2" value="2" />
+						    <label for="c4l-rate2"></label>
+						 
+						    <input name="rating" type="radio" id="c4l-rate3" value="3" checked/>
+						    <label for="c4l-rate3"></label>
+						 
+						    <input name="rating" type="radio" id="c4l-rate4" value="4" />
+						    <label for="c4l-rate4"></label>
+						 
+						    <input name="rating" type="radio" id="c4l-rate5" value="5"  />
+						    <label for="c4l-rate5"></label>
+						</div>
+					</div>
+					<!-- /.VOTAZIONE -->
+				
 					<div class="input-group">
 								<input type="hidden" name="Gioco" value="<%out.print(request.getAttribute("titolo"));%>">
 								<input type="text" name="recensione" class="form-control input-md" placeholder="Scrivi una recensione..."> <span class="input-group-btn">

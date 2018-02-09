@@ -23,7 +23,7 @@
 					<div class="panel-body">
 						<form role="form" action="/oop17/Login" method="Post">
 							<fieldset>
-								<div class="form-group <%if(request.getAttribute("ErrorUser")!=null){ out.print("has-error");}%> col-md-10 col-md-offset-1">
+								<div class="form-group <%if(request.getAttribute("ErrorUser")!=null){ out.print("has-error has-feedback");}%> col-md-10 col-md-offset-1">
 									<input class="form-control" placeholder="Username" name="username" type="text" required value="<%if(request.getAttribute("UserInsert")!=null){ out.print(request.getAttribute("UserInsert"));}%>">
 								</div>
 								

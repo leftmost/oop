@@ -62,6 +62,8 @@ public class Recensione extends HttpServlet {
 
 		String username_utente = utente.getUsername(); //username utente
 		String testo= request.getParameter("recensione"); // testo
+		int rating= Integer.parseInt(request.getParameter("rating")); // valutazione
+		
 		//voto TODO
 
 
@@ -80,7 +82,7 @@ public class Recensione extends HttpServlet {
 				}
 			}
 
-			Model.Recensione nuovoRecensione = new Model.Recensione(username_utente,idGioco,5,testo);
+			Model.Recensione nuovoRecensione = new Model.Recensione(username_utente,idGioco,rating,testo);
 
 			RecensioneDAOint recensione = new RecensioneDAO();
 			recensione.inserisciRecensione(nuovoRecensione);
