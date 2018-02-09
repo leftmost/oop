@@ -34,9 +34,9 @@
 				<a href="/oop17/GestioneUtenti"><em class="fa fa-users">&nbsp;</em>Gestione Utenti</a>
 			</li>
 			<%}%>
-			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
+			<%if(request.getAttribute("tipologia").equals("Admin")){%>
 			<li <%if(request.getAttribute("active").equals("Gestione Moderatori")){out.print(" class=\"active\"");}%>>
-				<a href="/oop17/GModeratori"><em class="fa fa-users">&nbsp;</em>Gestione Moderatori</a>
+				<a href="/oop17/gestioneModeratore"><em class="fa fa-users">&nbsp;</em>Gestione Moderatori</a>
 			</li>
 			<%}%>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>

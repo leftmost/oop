@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Model.Recensione;
 import Model.Timeline;
 import Model.Utente;
 import Model.DAO.Interface.TimelineDAOint;
@@ -23,9 +22,6 @@ public class UtenteDAO implements UtenteDAOint {
 	RICERCA = "SELECT * FROM utente WHERE username = ?;";
 
 	private static final String
-	AGG_TIPOLOGIA = "UPDATE utente SET tipologia=? WHERE username=?;";
-	
-	private static final String
 	AGG_ANAGRAFICA = "UPDATE utente SET Nome=?,Cognome=? WHERE username=?;";
 
 	private static final String
@@ -36,6 +32,15 @@ public class UtenteDAO implements UtenteDAOint {
 	
 	private static final String
 	UTENTI_BASE = "SELECT * FROM Utente WHERE tipologia = 'Utente';";
+	
+	private static final String
+	UTENTI_MODERATORI = "SELECT * FROM Utente WHERE tipologia != 'Admin'";
+	
+	private static final String
+	NOMINA_MODERATORE = "UPDATE Utente SET tipologia='Moderatore' WHERE username=?;";
+	
+	private static final String
+	RETROCEDI_MODERATORE = "UPDATE Utente SET tipologia='Utente' WHERE username=?;";
 	
 	
 
@@ -90,20 +95,6 @@ public class UtenteDAO implements UtenteDAOint {
 	}
 
 
-	//promuove o retrocede un User
-	@Override
-	public int aggTipologiaUser(Utente utente) throws SQLException {
-		Connection connection = Database.openConnection();
-		PreparedStatement ps = connection.prepareStatement(AGG_TIPOLOGIA);
-		ps.setString(1, utente.getTipologia());
-		ps.setString(2, utente.getUsername());
-
-		int result = ps.executeUpdate();
-
-		ps.close();
-		connection.close();
-		return result;
-	}
 	
 	//Modifica anagrafica utente
 		@Override
@@ -120,7 +111,8 @@ public class UtenteDAO implements UtenteDAOint {
 			connection.close();
 			return result;
 		}
-
+		
+	//controlla l'esistenza di una  email
 	@Override
 	public boolean emailEsistente(String email) throws SQLException {
 		boolean emailEsistente;
@@ -142,6 +134,7 @@ public class UtenteDAO implements UtenteDAOint {
 		return emailEsistente;
 	}
 
+	//controlla l'esistenza di un username
 	@Override
 	public boolean usernameEsistente(String username) throws SQLException {
 		boolean usernameEsistente;
@@ -163,6 +156,7 @@ public class UtenteDAO implements UtenteDAOint {
 		return usernameEsistente;
 	}
 
+	//restituisce la lista di tutti gli utenti base
 	@Override
 	public ArrayList<Utente> listaUtentiBase() throws SQLException {
 		ArrayList<Utente> utentiBase = new ArrayList<>();
@@ -185,6 +179,63 @@ public class UtenteDAO implements UtenteDAOint {
 		rset.close();
 		connection.close();
 		return utentiBase;
+	}
+	
+	//restituisce la lista di tutti gli utenti base e moderatori
+	@Override
+	public ArrayList<Utente> listaUtentieModeratori() throws SQLException {
+		ArrayList<Utente> utentiBase = new ArrayList<>();
+		Connection connection = Database.openConnection();
+		Statement s = connection.createStatement();
+		ResultSet rset = s.executeQuery(UTENTI_MODERATORI);
+		while (rset.next()){
+			
+			Utente utente = new Utente(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), rset.getString(5), rset.getString(6));
+
+			TimelineDAOint timeline = new TimelineDAO();
+
+			Timeline usersTimeline = timeline.ricercaTimeline(utente.getUsername());
+
+			utente.setTimeline(usersTimeline);
+			
+			utentiBase.add(utente);
+		}
+		s.close();
+		rset.close();
+		connection.close();
+		return utentiBase;
+	}
+	
+	
+	//Nomina Moderatore
+	@Override
+	public int nominaModeratore(Utente utente) throws SQLException {
+		Connection connection = Database.openConnection();
+		PreparedStatement ps = connection.prepareStatement(NOMINA_MODERATORE);
+		ps.setString(1, utente.getUsername());
+		
+
+		int result = ps.executeUpdate();
+
+		ps.close();
+		connection.close();
+		return result;
+	}
+	
+	
+	//Retrocedi Moderatore
+	@Override
+	public int retrocediModeratore(Utente utente) throws SQLException {
+		Connection connection = Database.openConnection();
+		PreparedStatement ps = connection.prepareStatement(RETROCEDI_MODERATORE);
+		ps.setString(1, utente.getUsername());
+		
+
+		int result = ps.executeUpdate();
+
+		ps.close();
+		connection.close();
+		return result;
 	}
 
 }

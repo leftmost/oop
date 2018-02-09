@@ -11,8 +11,6 @@ public interface UtenteDAOint {
 	
 	public Utente ricercaUser(String username) throws SQLException;
 	
-	public int aggTipologiaUser(Utente utente) throws SQLException;
-	
 	public int aggAnagraficaUser(Utente utente) throws SQLException;
 	
 	public boolean emailEsistente(String email) throws SQLException;
@@ -20,6 +18,12 @@ public interface UtenteDAOint {
 	public boolean usernameEsistente(String username) throws SQLException;
 	
 	public ArrayList<Utente> listaUtentiBase() throws SQLException;
+	
+	public ArrayList<Utente> listaUtentieModeratori() throws SQLException;
+	
+	public int nominaModeratore(Utente utente) throws SQLException;
+	
+	public int retrocediModeratore(Utente utente) throws SQLException;
 	
 	//TEST
 	public static void main(String[] args){
