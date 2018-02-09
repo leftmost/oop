@@ -35,7 +35,7 @@ public class RecensioneDAO implements RecensioneDAOint{
 	APPROVATE_GIOCO = "SELECT * FROM Recensione JOIN Gioco ON Recensione.Gioco_id=Gioco.id WHERE Approvazione='1' AND Gioco.Titolo=?";
 
 	private static final String
-	ELIMINA = "DELETE FROM Recensione WHERE Utente_Username = ? AND Gioco_id=? ;";
+	ELIMINA = "DELETE FROM Recensione WHERE Utente_Username =? AND Gioco_id=? ;";
 
 	//inserimento nuova recensione
 	@Override

@@ -65,8 +65,6 @@ public class Recensione extends HttpServlet {
 		//voto TODO
 
 
-	
-
 		RecensioneDAOint recensioneDAO = new RecensioneDAO();
 		GiocoDAOint giocoDAO = new GiocoDAO();
 
@@ -77,7 +75,7 @@ public class Recensione extends HttpServlet {
 			ArrayList<Model.Recensione> listaApprovate= recensioneDAO.approvateGioco(request.getParameter("Gioco"));
 			for(Model.Recensione x:listaApprovate){
 				
-				if(x.getGioco_id()==idGioco) {
+				if(x.getGioco_id()==idGioco &&  x.getUtente_username().equals(username_utente)) {
 					recensioneDAO.eliminaRecensioneUtente(x);
 				}
 			}
