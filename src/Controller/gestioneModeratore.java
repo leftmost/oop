@@ -59,7 +59,7 @@ public class gestioneModeratore extends HttpServlet {
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("tipologia",utente.getTipologia());
-		request.setAttribute("active","Gestione Utenti");
+		request.setAttribute("active","Gestione Moderatori");
 		//.Frame
 		//set parametri
 		request.setAttribute("username",utente.getUsername());
