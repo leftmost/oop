@@ -118,7 +118,7 @@
 						for (Recensione x : lista) {
 					%>
 					<li class="left clearfix"><span class="chat-img pull-left">
-							<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar"
+							<img src="/oop17/fonts/user.png" height="50" width="50" alt="User Avatar"
 							class="img-circle">
 					</span>
 						<div class="chat-body clearfix">

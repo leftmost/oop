@@ -67,7 +67,7 @@
 						<tr>
 							<th>Utente</th>
 							<th>Testo</th>
-							<th>Approvazione</th>
+							<th colspan="2" class="text-center">Approvazione</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -78,13 +78,20 @@
 					<tr>
 					<th><%out.print(x.getUtente_username());%></th>
 					<th><%out.print(x.getRecensione());%></th>
-					<th>
+					<th class="text-center">
 						<form method="post">
 							<input type="hidden" name="utente" value="<%out.print(x.getUtente_username());%>">
 							<input type="hidden" name="gioco" value="<%out.print(x.getGioco_id());%>">
 							<input class="btn btn-success" type="submit" value="Approva">
 						</form>
-					</th>	
+					</th>
+					<th class="text-center">
+						<form method="post" action="/oop17/EliminaRecensione">
+							<input type="hidden" name="utente" value="<%out.print(x.getUtente_username());%>">
+							<input type="hidden" name="gioco" value="<%out.print(x.getGioco_id());%>">
+							<input class="btn btn-danger" type="submit" value="Elimina">
+						</form>
+					</th>		
 					</tr>
 					<%}%>
 					</tbody>

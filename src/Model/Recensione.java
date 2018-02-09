@@ -16,6 +16,11 @@ public class Recensione {
 		this.voto = voto;
 	}
 
+	public Recensione(String utente_username, int gioco_id) {
+		this.utente_username = utente_username;
+		this.gioco_id = gioco_id;
+	}
+
 	public String getUtente_username() {
 		return utente_username;
 	}

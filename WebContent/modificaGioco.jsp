@@ -47,14 +47,14 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Gestione Recensioni</li>
+				<li class="active">Gestione Giochi</li>
 			</ol>
 		</div>
 
 		<!--TITOLO-->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Approvazione recensioni</h1>
+				<h1 class="page-header">Modifica Gioco</h1>
 			</div>
 		</div>
 		<!--/.TITOLO-->
