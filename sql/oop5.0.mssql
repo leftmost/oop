@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Feb 08, 2018 alle 18:31
+-- Creato il: Feb 09, 2018 alle 19:19
 -- Versione del server: 5.6.38
 -- Versione PHP: 5.6.32
 
@@ -25,24 +25,38 @@ USE `oop`;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Gioco`
+-- Struttura della tabella `gioco`
 --
 
-DROP TABLE IF EXISTS `Gioco`;
-CREATE TABLE `Gioco` (
+DROP TABLE IF EXISTS `gioco`;
+CREATE TABLE `gioco` (
   `id` int(11) NOT NULL,
   `Titolo` varchar(45) NOT NULL,
   `Valutazione` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dump dei dati per la tabella `gioco`
+--
+
+INSERT INTO `gioco` (`id`, `Titolo`, `Valutazione`) VALUES
+(2, 'Cirulla', 5),
+(3, 'Hearts', 0),
+(4, 'Scopa', 0),
+(5, 'Briscola', 5),
+(6, 'Bestia', 5),
+(9, 'Solitario', 5),
+(10, 'Teresina', 0),
+(11, 'Poker', 0);
+
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Recensione`
+-- Struttura della tabella `recensione`
 --
 
-DROP TABLE IF EXISTS `Recensione`;
-CREATE TABLE `Recensione` (
+DROP TABLE IF EXISTS `recensione`;
+CREATE TABLE `recensione` (
   `Utente_Username` varchar(15) NOT NULL,
   `Gioco_id` int(11) NOT NULL,
   `Approvazione` tinyint(4) NOT NULL DEFAULT '0',
@@ -51,11 +65,22 @@ CREATE TABLE `Recensione` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Trigger `Recensione`
+-- Dump dei dati per la tabella `recensione`
+--
+
+INSERT INTO `recensione` (`Utente_Username`, `Gioco_id`, `Approvazione`, `Voto`, `Recensione`) VALUES
+('giulia', 9, 1, 5, 'Complimenti! :)'),
+('loreand', 2, 1, 5, 'cirulla'),
+('loreand', 5, 1, 5, 'ok2'),
+('loreand', 6, 1, 5, 'ok2'),
+('loreand', 9, 1, 5, 'prova');
+
+--
+-- Trigger `recensione`
 --
 DROP TRIGGER IF EXISTS `Recensione_AFTER_UPDATE`;
 DELIMITER $$
-CREATE TRIGGER `Recensione_AFTER_UPDATE` AFTER UPDATE ON `Recensione` FOR EACH ROW BEGIN
+CREATE TRIGGER `Recensione_AFTER_UPDATE` AFTER UPDATE ON `recensione` FOR EACH ROW BEGIN
 	IF NEW.Approvazione=1
 	THEN
 		UPDATE Gioco 
@@ -68,24 +93,34 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Timeline`
+-- Struttura della tabella `timeline`
 --
 
-DROP TABLE IF EXISTS `Timeline`;
-CREATE TABLE `Timeline` (
+DROP TABLE IF EXISTS `timeline`;
+CREATE TABLE `timeline` (
   `Utente_Username` varchar(15) NOT NULL,
   `Data` date NOT NULL,
   `Exp` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dump dei dati per la tabella `timeline`
+--
+
+INSERT INTO `timeline` (`Utente_Username`, `Data`, `Exp`) VALUES
+('andcant', '2018-02-08', 0),
+('giulia', '2018-02-08', 400),
+('loreand', '2018-02-08', 100),
+('loreand', '2018-02-09', 260);
+
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Utente`
+-- Struttura della tabella `utente`
 --
 
-DROP TABLE IF EXISTS `Utente`;
-CREATE TABLE `Utente` (
+DROP TABLE IF EXISTS `utente`;
+CREATE TABLE `utente` (
   `Username` varchar(15) NOT NULL,
   `Email` varchar(45) NOT NULL,
   `Password` varchar(45) NOT NULL,
@@ -95,11 +130,20 @@ CREATE TABLE `Utente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Trigger `Utente`
+-- Dump dei dati per la tabella `utente`
+--
+
+INSERT INTO `utente` (`Username`, `Email`, `Password`, `Nome`, `Cognome`, `Tipologia`) VALUES
+('andcant', 'andcant@lib.it', '1234', 'and', 'cant', 'Admin'),
+('giulia', 'giulia@univaq.it', '1234', 'Giulia', 'Ionannone', 'Utente'),
+('loreand', 'lor@and.it', '1234', 'lor', 'and', 'Admin');
+
+--
+-- Trigger `utente`
 --
 DROP TRIGGER IF EXISTS `Utente_AFTER_INSERT`;
 DELIMITER $$
-CREATE TRIGGER `Utente_AFTER_INSERT` AFTER INSERT ON `Utente` FOR EACH ROW BEGIN
+CREATE TRIGGER `Utente_AFTER_INSERT` AFTER INSERT ON `utente` FOR EACH ROW BEGIN
 INSERT INTO Timeline(Utente_Username,Data,Exp) VALUES(NEW.Username,CURRENT_DATE,'0');
 END
 $$
@@ -110,28 +154,28 @@ DELIMITER ;
 --
 
 --
--- Indici per le tabelle `Gioco`
+-- Indici per le tabelle `gioco`
 --
-ALTER TABLE `Gioco`
+ALTER TABLE `gioco`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indici per le tabelle `Recensione`
+-- Indici per le tabelle `recensione`
 --
-ALTER TABLE `Recensione`
+ALTER TABLE `recensione`
   ADD PRIMARY KEY (`Utente_Username`,`Gioco_id`),
   ADD KEY `fk_Recensione_Gioco1_idx` (`Gioco_id`);
 
 --
--- Indici per le tabelle `Timeline`
+-- Indici per le tabelle `timeline`
 --
-ALTER TABLE `Timeline`
+ALTER TABLE `timeline`
   ADD PRIMARY KEY (`Utente_Username`,`Data`);
 
 --
--- Indici per le tabelle `Utente`
+-- Indici per le tabelle `utente`
 --
-ALTER TABLE `Utente`
+ALTER TABLE `utente`
   ADD PRIMARY KEY (`Username`),
   ADD UNIQUE KEY `Username_UNIQUE` (`Username`),
   ADD UNIQUE KEY `Email_UNIQUE` (`Email`);
@@ -141,27 +185,27 @@ ALTER TABLE `Utente`
 --
 
 --
--- AUTO_INCREMENT per la tabella `Gioco`
+-- AUTO_INCREMENT per la tabella `gioco`
 --
-ALTER TABLE `Gioco`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `gioco`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
--- Limiti per la tabella `Recensione`
+-- Limiti per la tabella `recensione`
 --
-ALTER TABLE `Recensione`
-  ADD CONSTRAINT `fk_Recensione_Gioco1` FOREIGN KEY (`Gioco_id`) REFERENCES `Gioco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_Recensione_Utente1` FOREIGN KEY (`Utente_Username`) REFERENCES `Utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `recensione`
+  ADD CONSTRAINT `fk_Recensione_Gioco1` FOREIGN KEY (`Gioco_id`) REFERENCES `gioco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_Recensione_Utente1` FOREIGN KEY (`Utente_Username`) REFERENCES `utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `Timeline`
+-- Limiti per la tabella `timeline`
 --
-ALTER TABLE `Timeline`
-  ADD CONSTRAINT `fk_Timeline_Utente` FOREIGN KEY (`Utente_Username`) REFERENCES `Utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `timeline`
+  ADD CONSTRAINT `fk_Timeline_Utente` FOREIGN KEY (`Utente_Username`) REFERENCES `utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
