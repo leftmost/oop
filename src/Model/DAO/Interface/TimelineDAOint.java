@@ -13,35 +13,25 @@ import Model.DAO.Concrete.TimelineDAO;
 public interface TimelineDAOint {
 
 	public Timeline ricercaTimeline(String username) throws SQLException;
-	
+
 	public int aumentaExp(String username) throws SQLException;
-	
+
 	public int aumentaLiv(String username) throws SQLException;
 	
+	public int retrocediLiv(String username,int exp) throws SQLException;
+
 	public int aggiornaTimeline(Utente utente) throws SQLException;
-	
+
 	//++++++++++++TEST+++++++++
-	
+
 	public static void main(String [] args) {
-		
-//		//   1 - inserimento
-//		TimelineDAOint a = new TimelineDAO();
-//		Timeline t = new Timeline();
-//		t.add(new Esperienza(0, null, 0));
-//	
-//		Utente utente = new Utente("andcant", "", "", "", "", "");
-//		utente.setTimeline(t);
-//		try {
-//			int ok=a.aggiornaTimeline(utente);
-//			System.out.println(ok);
-//		} catch (SQLException e){
-//			e.printStackTrace();
-//		}
-	
-	
-//  2 - exp
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println(simpleDateFormat.format(new Date()));
-}
-	
+
+		TimelineDAOint timeline = new TimelineDAO();
+		try {
+			timeline.aumentaLiv("giulia");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

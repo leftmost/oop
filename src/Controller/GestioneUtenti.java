@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Model.Utente;
+import Model.DAO.Concrete.TimelineDAO;
 import Model.DAO.Concrete.UtenteDAO;
+import Model.DAO.Interface.TimelineDAOint;
 import Model.DAO.Interface.UtenteDAOint;
 
 /**
@@ -73,7 +76,7 @@ public class GestioneUtenti extends HttpServlet {
 
 		//Carica Home.jsp
 		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/gestioneUtente.jsp");
+		RequestDispatcher rd = sc.getRequestDispatcher("/gestioneUtenti.jsp");
 		rd.forward(request, response);
 	}
 
@@ -81,10 +84,39 @@ public class GestioneUtenti extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String utente=request.getParameter("utente");
-
-		UtenteDAOint utenteDAO = new UtenteDAO();
-
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
+		Utente utente = (Utente) request.getSession().getAttribute("login");
+		TimelineDAOint timeline = new TimelineDAO();
+		
+		if(request.getParameter("promuovi")==null){
+			UtenteDAOint utenteDAO = new UtenteDAO();
+			try {
+				Utente utenteDaRetrocedere = utenteDAO.ricercaUser(request.getParameter("username"));
+				int expUtente= utenteDaRetrocedere.getTimeline().lastExp().getExp();
+				
+				if(expUtente<100){
+					timeline.retrocediLiv(request.getParameter("username"), expUtente);
+					
+				}else {
+					timeline.retrocediLiv(request.getParameter("username"), 100);
+				}
+				request.setAttribute("mex",false);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else {
+			try {
+				timeline.aumentaLiv(request.getParameter("username"));
+				request.setAttribute("mex",true);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
 		doGet(request, response);
 	}
 

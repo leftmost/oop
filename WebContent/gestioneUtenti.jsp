@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Model.Recensione"%>
+<%@page import="Model.Utente"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +37,7 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-
+	
 	<!-- SIDEBAR -->
 	<%@ include file="sidebar.jsp"%>
 	<!-- /.SIDEBAR -->
@@ -47,14 +47,14 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Gestione Recensioni</li>
+				<li class="active">Gestione utenti</li>
 			</ol>
 		</div>
 
 		<!--TITOLO-->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Approvazione recensioni</h1>
+				<h1 class="page-header">Gestione utenti</h1>
 			</div>
 		</div>
 		<!--/.TITOLO-->
@@ -62,28 +62,63 @@
 		<!--BODY-->
 		<div class="row">
 			<div class="col-lg-12">
+			<%
+			if (request.getAttribute("mex")!=null) {
+				if ((boolean)request.getAttribute("mex")==true) {
+			%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-success" role="alert">
+						<em class="fa fa-lg fa-check-circle">&nbsp;</em> Livello Aumentato +100XP!
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+			<%
+			}else{%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-danger" role="alert">
+						<em class="fa fa-lg fa-times-circle">&nbsp;</em> Livello Diminuito -100XP!
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+			<%	
+			}}
+			%>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<th>Utente</th>
-							<th>Testo</th>
-							<th>Approvazione</th>
+							<th>Email</th>
+							<th>Nome</th>
+							<th>Cognome</th>
+							<th colspan="2"></th>
 						</tr>
 					</thead>
 					<tbody>
 					<%
-						ArrayList<Recensione> lista = (ArrayList<Recensione>) request.getAttribute("recensioni");
-						for (Recensione x : lista) {
+						ArrayList<Utente> lista = (ArrayList<Utente>) request.getAttribute("utenti");
+						for (Utente x : lista) {
 					%>
-					<th><%out.print(x.getUtente_username());%></th>
-					<th><%out.print(x.getRecensione());%></th>
-					<th>
+					<tr>
+					<th><%out.print(x.getUsername());%></th>
+					<th><%out.print(x.getEmail());%></th>
+					<th><%out.print(x.getNome());%></th>
+					<th><%out.print(x.getCognome());%></th>
+				
+					<th class="text-center">
 						<form method="post">
-							<input type="hidden" name="utente" value="<%out.print(x.getUtente_username());%>">
-							<input type="hidden" name="gioco" value="<%out.print(x.getGioco_id());%>">
-							<input class="btn btn-success" type="submit" value="Approva">
+							<input type="hidden" name="username" value="<%out.print(x.getUsername());%>">
+							<input type="hidden" name="promuovi">
+							<input class="btn btn-success" type="submit" value="Promuovi">
 						</form>
-					</th>	
+					</th>
+					<th class="text-center">
+						<form method="post">
+							<input type="hidden" name="retrocedi">
+							<input type="hidden" name="username" value="<%out.print(x.getUsername());%>">
+							<input class="btn btn-danger" type="submit" value="Retrocedi">
+						</form>
+					</th>
+					</tr>	
 					<%}%>
 					</tbody>
 					
@@ -104,6 +139,11 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('#delete').remove();
+		}, 2500);
+	</script>
 
 </body>
 </html>

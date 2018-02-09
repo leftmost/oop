@@ -21,7 +21,10 @@ public class TimelineDAO implements TimelineDAOint {
 	AUM_EXP = "UPDATE timeline SET exp=exp+10 WHERE utente_username=? AND Data=DATE(NOW());";
 
 	private static final String
-	AUM_LIV = "UPDATE timeline SET exp=exp+100 WHERE utente_username=? AND Data=DATE(NOW());";
+	AUM_LIV = "UPDATE timeline SET exp=exp+100 WHERE utente_username=? AND Data=(SELECT MAX(Data));";
+	
+	private static final String
+	RET_LIV = "UPDATE timeline SET exp=exp-? WHERE utente_username=? AND Data=(SELECT MAX(Data));";
 
 	private static final String
 	INSERT = "INSERT INTO Timeline (utente_username, data, exp) VALUES (?,Date(NOW()),?);";
@@ -70,6 +73,7 @@ public class TimelineDAO implements TimelineDAOint {
 			Connection connection = Database.openConnection();
 			PreparedStatement ps = connection.prepareStatement(AUM_LIV);
 			ps.setString(1, username);
+			ps.setString(1, username);
 			
 
 			int result = ps.executeUpdate();
@@ -87,6 +91,22 @@ public class TimelineDAO implements TimelineDAOint {
 		PreparedStatement ps = connection.prepareStatement(INSERT);
 		ps.setString(1, utente.getUsername());
 		ps.setInt(2, utente.getEsperienza()+10);
+
+		int result = ps.executeUpdate();
+
+		ps.close();
+		connection.close();
+		return result;
+	}
+
+
+	@Override
+	public int retrocediLiv(String username, int exp) throws SQLException {
+		Connection connection = Database.openConnection();
+		PreparedStatement ps = connection.prepareStatement(RET_LIV);
+		ps.setInt(1, exp);
+		ps.setString(2, username);
+		
 
 		int result = ps.executeUpdate();
 
