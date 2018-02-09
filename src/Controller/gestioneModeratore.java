@@ -97,7 +97,7 @@ public class gestioneModeratore extends HttpServlet {
 					request.setAttribute("mexags",false);
 				}else {
 				utenteDAO.retrocediModeratore(utenteDaRetrocedere);
-				request.setAttribute("mexag", false);
+				request.setAttribute("mexag",false);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
