@@ -69,7 +69,7 @@
 						</div>
 						<form role="form" action="/oop17/Play" method="post">
 							<div class="panel-footer">
-								<input type="hidden" name="titolo" value="<%=request.getAttribute("titolo")%>">
+								<input type="hidden" name="Gioco" value="<%=request.getAttribute("titolo")%>">
 								<button type="submit" class="btn btn-success"><i class="fa fa-play-circle"></i> Play</button>
 							</div>
 						</form>
@@ -87,7 +87,7 @@
 			%>
 				<div class="form-group">
 					<div id='delete' class="alert bg-success" role="alert">
-						<em class="fa fa-lg fa-check-circle">&nbsp;</em> Complimenti +10 XP
+						<em class="fa fa-lg fa-check-circle">&nbsp;</em>Hai Vinto! :)
 						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
 					</div>
 				</div>
@@ -95,7 +95,7 @@
 			}else{%>
 				<div class="form-group">
 					<div id='delete' class="alert bg-danger" role="alert">
-						<em class="fa fa-lg fa-times-circle">&nbsp;</em> Hai perso
+						<em class="fa fa-lg fa-times-circle">&nbsp;</em> Hai Perso! :(
 						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
 					</div>
 				</div>
@@ -140,16 +140,32 @@
 					%>
 				</ul>
 			</div>
+			<%
+			if (request.getAttribute("disattiva")!=null) {
+			%>
 			<div class="panel-footer">
-			<form action="/oop17/Recensione" method="post">
-				<div class="input-group">
-							<input type="hidden" name="Gioco" value="<%out.print(request.getAttribute("titolo"));%>">
-							<input type="text" name="recensione" class="form-control input-md" placeholder="Scrivi una recensione..."> <span class="input-group-btn">
-							<button type="submit" class="btn btn-primary btn-md">Invia</button>
-						</span>
-					
-				</div></form>
+				<form action="/oop17/Recensione" method="post">
+					<div class="input-group">
+								<input type="text" name="recensione" class="form-control input-md" placeholder="In attesa di Moderazione..."> <span class="input-group-btn">
+								<button type="submit" disabled class="btn btn-primary btn-md">Invia</button>
+							</span>
+						
+					</div>
+				</form>
 			</div>
+			<%}else{%>
+			<div class="panel-footer">
+				<form action="/oop17/Recensione" method="post">
+					<div class="input-group">
+								<input type="hidden" name="Gioco" value="<%out.print(request.getAttribute("titolo"));%>">
+								<input type="text" name="recensione" class="form-control input-md" placeholder="Scrivi una recensione..."> <span class="input-group-btn">
+								<button type="submit" class="btn btn-primary btn-md">Invia</button>
+							</span>
+						
+					</div>
+				</form>
+			</div>
+			<%}%>
 		</div>
 	</div>
 	<!--/.main-->

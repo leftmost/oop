@@ -109,7 +109,7 @@ public class GestioneUtenti extends HttpServlet {
 		}
 		else {
 			try {
-				timeline.aumentaLiv(request.getParameter("username"));
+				timeline.aumentaLiv(request.getParameter("username"),100);
 				request.setAttribute("mex",true);
 			} catch (SQLException e) {
 				

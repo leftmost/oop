@@ -16,13 +16,13 @@ public class TimelineDAO implements TimelineDAOint {
 
 	private static final String
 	RICERCA = "SELECT * FROM Timeline WHERE Utente_Username = ? ORDER BY Data DESC;";
-	
-	private static final String
-	AUM_EXP = "UPDATE timeline SET exp=exp+10 WHERE utente_username=? AND Data=DATE(NOW());";
 
 	private static final String
-	AUM_LIV = "UPDATE timeline SET exp=exp+100 WHERE utente_username=? AND Data=(SELECT MAX(Data));";
-	
+	AUM_EXP = "UPDATE timeline SET exp=exp+? WHERE utente_username=? AND Data=DATE(NOW());";
+
+	private static final String
+	AUM_LIV = "UPDATE timeline SET exp=exp+? WHERE utente_username=? AND Data=(SELECT MAX(Data));";
+
 	private static final String
 	RET_LIV = "UPDATE timeline SET exp=exp-? WHERE utente_username=? AND Data=(SELECT MAX(Data));";
 
@@ -50,15 +50,15 @@ public class TimelineDAO implements TimelineDAOint {
 		connection.close();
 		return timeline;
 	}
-	
-	
+
+
 	//aumenta l'esperienza dell'user
 	@Override
-	public int aumentaExp(String username) throws SQLException {
+	public int aumentaExp(String username,int exp) throws SQLException {
 		Connection connection = Database.openConnection();
 		PreparedStatement ps = connection.prepareStatement(AUM_EXP);
-		ps.setString(1, username);
-		
+		ps.setInt(1, exp);
+		ps.setString(2, username);
 
 		int result = ps.executeUpdate();
 
@@ -66,24 +66,24 @@ public class TimelineDAO implements TimelineDAOint {
 		connection.close();
 		return result;
 	}
-	
+
 	//aumenta l'esperienza dell'user
-		@Override
-		public int aumentaLiv(String username) throws SQLException {
-			Connection connection = Database.openConnection();
-			PreparedStatement ps = connection.prepareStatement(AUM_LIV);
-			ps.setString(1, username);
-			ps.setString(1, username);
-			
+	@Override
+	public int aumentaLiv(String username,int exp) throws SQLException {
+		Connection connection = Database.openConnection();
+		PreparedStatement ps = connection.prepareStatement(AUM_LIV);
+		ps.setInt(1, exp);
+		ps.setString(2, username);
 
-			int result = ps.executeUpdate();
 
-			ps.close();
-			connection.close();
-			return result;
-		}
-	
-	
+		int result = ps.executeUpdate();
+
+		ps.close();
+		connection.close();
+		return result;
+	}
+
+
 	//Inserisce una nuova riga nella tabella della Timeline
 	@Override
 	public int aggiornaTimeline(Utente utente) throws SQLException {
@@ -106,7 +106,7 @@ public class TimelineDAO implements TimelineDAOint {
 		PreparedStatement ps = connection.prepareStatement(RET_LIV);
 		ps.setInt(1, exp);
 		ps.setString(2, username);
-		
+
 
 		int result = ps.executeUpdate();
 

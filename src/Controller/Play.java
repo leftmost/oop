@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,9 +21,11 @@ import javax.servlet.http.HttpSession;
 import Model.Gioco;
 import Model.Utente;
 import Model.DAO.Concrete.GiocoDAO;
+import Model.DAO.Concrete.RecensioneDAO;
 import Model.DAO.Concrete.TimelineDAO;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.GiocoDAOint;
+import Model.DAO.Interface.RecensioneDAOint;
 import Model.DAO.Interface.TimelineDAOint;
 import Model.DAO.Interface.UtenteDAOint;
 
@@ -70,10 +73,25 @@ public class Play extends HttpServlet {
 		request.setAttribute("active","Play");
 		//.Frame
 		
+		request.setAttribute("titolo",request.getParameter("Gioco"));
+		
 		GiocoDAOint play = new GiocoDAO();
 		try {
 			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
-			request.setAttribute("recensioni",play.recensioniGioco(gioco));
+			ArrayList<Model.Recensione> recensioni = play.recensioniGioco(gioco);
+			
+			request.setAttribute("recensioni",recensioni);
+			
+			RecensioneDAOint recensioneDAO = new RecensioneDAO();
+			ArrayList<Model.Recensione> daApprovare =recensioneDAO.daApprovareGioco(request.getParameter("Gioco"));
+			
+			for(Model.Recensione x: daApprovare){
+				System.out.println(x);
+				if(x.getUtente_username().equals(utente.getUsername())) {
+					request.setAttribute("disattiva","on");
+				}
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -92,21 +110,17 @@ public class Play extends HttpServlet {
 		//sessione corretta
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
+		Utente utente = (Utente) session.getAttribute("login");
 		
 		GiocoDAOint play = new GiocoDAO();
 		try {
-			Gioco gioco = play.ricercaGioco(request.getParameter("titolo"));
+			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
+			System.out.println(gioco);
 			request.setAttribute("recensioni",play.recensioniGioco(gioco));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Errore gioco");
 		}
-
-		Utente utente = (Utente) session.getAttribute("login");
-		//set parametri
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("tipologia",utente.getTipologia());
-		request.setAttribute("titolo",request.getParameter("titolo"));
+		
 
 		//random vittoria
 		boolean vittoria = Math.random() < 0.5;
@@ -114,8 +128,6 @@ public class Play extends HttpServlet {
 		//if vittoria=true aumenta punti 
 		if(vittoria) {
 			TimelineDAOint timeline = new TimelineDAO();
-			
-			
 			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
@@ -127,14 +139,13 @@ public class Play extends HttpServlet {
 			// se le date coincidono aggiorna l'esperienza
 			if(oraCorrente.equals(oraUtente)){
 				try {
-					timeline.aumentaExp(utente.getUsername());
+					timeline.aumentaExp(utente.getUsername(),10);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else{
 				try {
-					System.out.println("inserisci");
 					timeline.aggiornaTimeline(utente);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -150,11 +161,9 @@ public class Play extends HttpServlet {
 			}
 			
 		}
-
-		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Play.jsp");
-		rd.forward(request, response);
+		
+		doGet(request, response);
+		
 	}
 
 }

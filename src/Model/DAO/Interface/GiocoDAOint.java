@@ -51,8 +51,8 @@ public interface GiocoDAOint {
 		
 		//   3 - ricerca per titolo
 //		
-//		Gioco ricerca = a.findGameByTitle("GTA");
-//		System.out.println(ricerca);
+		Gioco ricerca = a.ricercaGioco("Solitario");
+		System.out.println(ricerca);
 		
 		
 		//   4 - lista di giochi
@@ -79,5 +79,7 @@ public interface GiocoDAOint {
 		
 		
 	}
+
+	Gioco ricercaGiocoID(String id) throws SQLException;
 
 }
