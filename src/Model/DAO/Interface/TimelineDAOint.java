@@ -14,9 +14,9 @@ public interface TimelineDAOint {
 
 	public Timeline ricercaTimeline(String username) throws SQLException;
 
-	public int aumentaExp(String username) throws SQLException;
+	public int aumentaExp(String username,int exp) throws SQLException;
 
-	public int aumentaLiv(String username) throws SQLException;
+	public int aumentaLiv(String username,int exp) throws SQLException;
 	
 	public int retrocediLiv(String username,int exp) throws SQLException;
 
@@ -28,7 +28,7 @@ public interface TimelineDAOint {
 
 		TimelineDAOint timeline = new TimelineDAO();
 		try {
-			timeline.aumentaLiv("giulia");
+			timeline.aumentaLiv("giulia",10);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

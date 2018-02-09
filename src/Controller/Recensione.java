@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -48,13 +49,7 @@ public class Recensione extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -64,28 +59,39 @@ public class Recensione extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
 		Utente utente = (Utente) session.getAttribute("login");
-		
+
 		String username_utente = utente.getUsername(); //username utente
 		String testo= request.getParameter("recensione"); // testo
 		//voto TODO
-		
+
+
+	
+
+		RecensioneDAOint recensioneDAO = new RecensioneDAO();
 		GiocoDAOint giocoDAO = new GiocoDAO();
+
 		try {
 			Gioco gioco = giocoDAO.ricercaGioco(request.getParameter("Gioco"));
 			int idGioco = gioco.getId(); // id gioco
-			
+
+			ArrayList<Model.Recensione> listaApprovate= recensioneDAO.approvateGioco(request.getParameter("Gioco"));
+			for(Model.Recensione x:listaApprovate){
+				
+				if(x.getGioco_id()==idGioco) {
+					recensioneDAO.eliminaRecensioneUtente(x);
+				}
+			}
+
 			Model.Recensione nuovoRecensione = new Model.Recensione(username_utente,idGioco,5,testo);
-			
+
 			RecensioneDAOint recensione = new RecensioneDAO();
 			recensione.inserisciRecensione(nuovoRecensione);
-			
-			System.out.println(nuovoRecensione);
 
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
-		
+
+
 		response.sendRedirect("/oop17/Play?Gioco="+request.getParameter("Gioco"));
 	}
 

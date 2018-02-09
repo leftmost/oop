@@ -34,6 +34,9 @@ public class GiocoDAO implements GiocoDAOint{
 	private static final String
 	VOTO= "SELECT valutazione FROM gioco WHERE id = ?;";
 	
+	private static final String
+	RICERCA_ID = "SELECT * FROM gioco WHERE id = ?;";
+	
 	//inserimento nuovo gioco
 	@Override
 	public int inserisciGioco(Gioco gioco) throws SQLException {
@@ -138,6 +141,27 @@ public class GiocoDAO implements GiocoDAOint{
 		    return votes_avarage;
 		    
 	  }
+	
+	//ricerca gioco tramite id
+		@Override
+		public Gioco ricercaGiocoID(String id) throws SQLException {
+			
+			 	Gioco gioco;
+			    Connection connection = Database.openConnection();  
+			    PreparedStatement ps = connection.prepareStatement(RICERCA);
+			    ps.setString(1, id);
+			    
+			    ResultSet result = ps.executeQuery();
+			    if ( result.first() == false ) {
+			        return null;
+			    }
+			    
+			    gioco = new Gioco(result.getInt(1), result.getString(2), result.getInt(3));
+			    ps.close();
+			    result.close();
+			    connection.close();
+			    return gioco;
+		}
 
 
 }
