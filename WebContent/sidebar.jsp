@@ -39,6 +39,11 @@
 				<a href="/oop17/gestioneModeratore"><em class="fa fa-users">&nbsp;</em>Gestione Moderatori</a>
 			</li>
 			<%}%>
+			<%if(request.getAttribute("tipologia").equals("Admin")){%>
+			<li <%if(request.getAttribute("active").equals("Rimozione Account")){out.print(" class=\"active\"");}%>>
+				<a href="/oop17/RimozioneAccount"><em class="fa fa-user-times">&nbsp;</em>Rimozione Account</a>
+			</li>
+			<%}%>
 			<%if(!request.getAttribute("tipologia").equals("Utente")){%>
 			<li <%if(request.getAttribute("active").equals("Gestione Recensioni")){out.print(" class=\"active\"");}%>>
 				<a href="/oop17/gestioneRecensioni"><em class="fa fa-list">&nbsp;</em>Gestione Recensioni</a>

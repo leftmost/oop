@@ -23,6 +23,10 @@ public class Utente
 		this.tipologia = tipologia;
 	}
 	
+	public Utente(String username){
+		this.username = username;
+	}
+	
 	
 	public String getUsername() {
 		return username;

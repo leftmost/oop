@@ -105,7 +105,7 @@
 									</div>
 									<div class="timeline-body">
 									<%int trofei=(int)request.getAttribute("esperienza")/100; for(int i=0;i<trofei;i++){
-										out.print("Trofeo "+i+"\n");
+										out.print("Trofeo "+i+"<br>");
 									}%>
 									</div>
 								</div>

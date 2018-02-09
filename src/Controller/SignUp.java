@@ -65,7 +65,6 @@ public class SignUp extends HttpServlet {
 		String nome=request.getParameter("nome");
 		String cognome=request.getParameter("cognome");
 		String password=request.getParameter("password");
-		
 		//controllo email
 		UtenteDAOint nuovoUtente=new UtenteDAO();
 		try {
@@ -100,6 +99,7 @@ public class SignUp extends HttpServlet {
 		//salvataggio utente
 		try {
 			nuovoUtente.inserisciUser(new Utente(username, email, password, nome, cognome,"Utente"));
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

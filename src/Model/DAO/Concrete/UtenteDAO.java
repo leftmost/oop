@@ -31,10 +31,10 @@ public class UtenteDAO implements UtenteDAOint {
 	USERNAME_ESISTENTE = "SELECT * FROM utente WHERE username = ?;";
 	
 	private static final String
-	UTENTI_BASE = "SELECT * FROM Utente WHERE tipologia = 'Utente';";
+	UTENTI_BASE = "SELECT * FROM Utente WHERE tipologia = 'Utente' ORDER BY Username ASC;";
 	
 	private static final String
-	UTENTI_MODERATORI = "SELECT * FROM Utente WHERE tipologia != 'Admin'";
+	UTENTI_MODERATORI = "SELECT * FROM Utente WHERE tipologia != 'Admin' ORDER BY Username ASC";
 	
 	private static final String
 	NOMINA_MODERATORE = "UPDATE Utente SET tipologia='Moderatore' WHERE username=?;";
@@ -42,7 +42,8 @@ public class UtenteDAO implements UtenteDAOint {
 	private static final String
 	RETROCEDI_MODERATORE = "UPDATE Utente SET tipologia='Utente' WHERE username=?;";
 	
-	
+	private static final String
+	RIMOZIONE = "DELETE FROM Utente WHERE Username=?;";
 
 
 	//inserisce un nuovo User
@@ -54,7 +55,7 @@ public class UtenteDAO implements UtenteDAOint {
 		ps.setString(2, utente.getEmail());
 		ps.setString(3, utente.getPassword());
 		ps.setString(4, utente.getNome());
-		ps.setString(5, utente.getNome());
+		ps.setString(5, utente.getCognome());
 		ps.setString(6, utente.getTipologia());
 
 		int result = ps.executeUpdate();
@@ -237,5 +238,19 @@ public class UtenteDAO implements UtenteDAOint {
 		connection.close();
 		return result;
 	}
+	
+	//inserisce un nuovo User
+		@Override
+		public int rimozioneUser(Utente utente) throws SQLException {
+			Connection connection = Database.openConnection();
+			PreparedStatement ps = connection.prepareStatement(RIMOZIONE);
+			ps.setString(1, utente.getUsername());
+
+			int result = ps.executeUpdate();
+
+			ps.close();
+			connection.close();
+			return result;
+		}
 
 }

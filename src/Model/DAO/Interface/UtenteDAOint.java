@@ -25,14 +25,18 @@ public interface UtenteDAOint {
 	
 	public int retrocediModeratore(Utente utente) throws SQLException;
 	
+	public int rimozioneUser(Utente utente) throws SQLException;
 	//TEST
 	public static void main(String[] args){
 		UtenteDAOint user = new UtenteDAO();
 		
 		try {
-System.out.println(user.listaUtentiBase());
+			System.out.println(user.rimozioneUser(new Utente("1", null, null, null, null, null)));
+			System.out.println("ok");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
+	
 }
