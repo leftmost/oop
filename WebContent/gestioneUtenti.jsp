@@ -58,10 +58,7 @@
 			</div>
 		</div>
 		<!--/.TITOLO-->
-
-		<!--BODY-->
-		<div class="row">
-			<div class="col-lg-12">
+		<div class="col-lg-12">
 			<%
 			if (request.getAttribute("mex")!=null) {
 				if ((boolean)request.getAttribute("mex")==true) {
@@ -83,6 +80,10 @@
 			<%	
 			}}
 			%>
+
+		<!--BODY-->
+		<div class="row">
+			
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -90,6 +91,7 @@
 							<th>Email</th>
 							<th>Nome</th>
 							<th>Cognome</th>
+							<th>Exp</th>
 							<th colspan="2"></th>
 						</tr>
 					</thead>
@@ -103,6 +105,7 @@
 					<th><%out.print(x.getEmail());%></th>
 					<th><%out.print(x.getNome());%></th>
 					<th><%out.print(x.getCognome());%></th>
+					<th><%out.print(x.getEsperienza());%></th>
 				
 					<th class="text-center">
 						<form method="post">

@@ -170,7 +170,16 @@ public class UtenteDAO implements UtenteDAOint {
 		Statement s = connection.createStatement();
 		ResultSet rset = s.executeQuery(UTENTI_BASE);
 		while (rset.next()){
-			utentiBase.add(new Utente(rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4),rset.getString(5),rset.getString(6)));
+			
+			Utente utente = new Utente(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), rset.getString(5), rset.getString(6));
+
+			TimelineDAOint timeline = new TimelineDAO();
+
+			Timeline usersTimeline = timeline.ricercaTimeline(utente.getUsername());
+
+			utente.setTimeline(usersTimeline);
+			
+			utentiBase.add(utente);
 		}
 		s.close();
 		rset.close();
