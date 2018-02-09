@@ -83,9 +83,10 @@ public class Play extends HttpServlet {
 			request.setAttribute("recensioni",recensioni);
 			
 			RecensioneDAOint recensioneDAO = new RecensioneDAO();
-			ArrayList<Model.Recensione> daApprovare =recensioneDAO.daApprovare();
+			ArrayList<Model.Recensione> daApprovare =recensioneDAO.daApprovareGioco(request.getParameter("Gioco"));
 			
 			for(Model.Recensione x: daApprovare){
+				System.out.println(x);
 				if(x.getUtente_username().equals(utente.getUsername())) {
 					request.setAttribute("disattiva","on");
 				}

@@ -60,7 +60,7 @@
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">Inserimento Gioco</div>
 					<div class="panel-body">
-						<form role="form" action="/oop17/gestioneGiochi" method="Post">
+						<form role="form" action="/oop17/InserimentoGioco" method="Post">
 							<fieldset>
 								<div class="form-group col-md-10 col-md-offset-1">
 									<input class="form-control" placeholder="Nome gioco" name="nuovoGioco" type="text" required value="">

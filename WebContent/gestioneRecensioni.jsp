@@ -75,6 +75,7 @@
 						ArrayList<Recensione> lista = (ArrayList<Recensione>) request.getAttribute("recensioni");
 						for (Recensione x : lista) {
 					%>
+					<tr>
 					<th><%out.print(x.getUtente_username());%></th>
 					<th><%out.print(x.getRecensione());%></th>
 					<th>
@@ -84,6 +85,7 @@
 							<input class="btn btn-success" type="submit" value="Approva">
 						</form>
 					</th>	
+					</tr>
 					<%}%>
 					</tbody>
 					
