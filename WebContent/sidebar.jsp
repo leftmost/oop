@@ -45,14 +45,14 @@
 			</li>
 			<%}%>
 			<%if(request.getAttribute("tipologia").equals("Admin")){%>
-			<li class="parent " <%if(request.getAttribute("active").equals("Gestione Giochi")){out.print(" class=\"active\"");}%>><a data-toggle="collapse" href="#sub-item-1">
+			<li class="parent <%if(request.getAttribute("active").equals("Gestione Giochi")){out.print(" active");}%>"><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> Gestione Giochi <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
-					<li><a class="" href="#">
+					<li><a class="" href="/oop17/InserimentoGioco">
 						<span class="fa fa-arrow-right">&nbsp;</span> Inserisci Gioco
 					</a></li>
-					<li><a class="" href="#">
+					<li><a class="" href="/oop17/ModificaGioco">
 						<span class="fa fa-arrow-right">&nbsp;</span> Modifica Gioco
 					</a></li>
 				</ul>
