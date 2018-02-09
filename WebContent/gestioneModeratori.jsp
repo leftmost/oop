@@ -47,14 +47,14 @@
 			<ol class="breadcrumb">
 				<li><a href="#"> <em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Gestione utenti</li>
+				<li class="active">Gestione moderatori</li>
 			</ol>
 		</div>
 
 		<!--TITOLO-->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Gestione utenti</h1>
+				<h1 class="page-header">Gestione moderatori</h1>
 			</div>
 		</div>
 		<!--/.TITOLO-->
