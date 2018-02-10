@@ -161,22 +161,20 @@
 				<form action="/oop17/Recensione" method="post">
 					<!-- VOTAZIONE -->
 					<div class="text-center">
-						<div class="rating">
-						    <input name="rating" type="radio" id="c4l-rate1" value="1"/>
-						    <label for="c4l-rate1"></label>
-						 
-						    <input name="rating" type="radio" id="c4l-rate2" value="2" />
-						    <label for="c4l-rate2"></label>
-						 
-						    <input name="rating" type="radio" id="c4l-rate3" value="3" checked/>
-						    <label for="c4l-rate3"></label>
-						 
-						    <input name="rating" type="radio" id="c4l-rate4" value="4" />
-						    <label for="c4l-rate4"></label>
-						 
-						    <input name="rating" type="radio" id="c4l-rate5" value="5"  />
-						    <label for="c4l-rate5"></label>
-						</div>
+						<div class="star-rating">
+					     	 <div class="star-rating__wrap">
+						        <input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5">
+						        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
+						        <input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4">
+						        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 5 stars"></label>
+						        <input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3" checked>
+						        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 5 stars"></label>
+						        <input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2">
+						        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 5 stars"></label>
+						        <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1">
+						        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
+					      </div>
+					    </div>
 					</div>
 					<!-- /.VOTAZIONE -->
 				

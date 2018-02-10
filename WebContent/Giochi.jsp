@@ -13,6 +13,7 @@
 <link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
+<link href="css/stelle.css" rel="stylesheet" type="text/css">
 
 <!--Custom Font-->
 <link
@@ -69,14 +70,26 @@
 					%>
 					
 			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel" style="cursor: pointer;"
-						onclick="window.location='/oop17/Play?Gioco=<% out.print(x.getTitolo());%>'">
-						<div class="">
-							<img src="/oop17/images/scala.jpg" class="img-responsive" alt="">
-						</div>
-						<div class="panel-footer"><h4><% out.print(x.getTitolo()); %></h4></div>
+				<div class="panel panel-default" style="cursor: pointer;" onclick="window.location='/oop17/Play?Gioco=<% out.print(x.getTitolo());%>'">
+					<div class="panel-body easypiechart-panel">
+						<div><img src="/oop17/images/scala.jpg" class="img-responsive"></div>
 					</div>
+					<div class="panel-footer">
+					<div class="text-center"><h4><% out.print(x.getTitolo()); %></h4></div>
+						
+						<!-- VOTAZIONE -->
+						<div class="text-center star">
+							<div class="rating">
+							<%
+							for(int i=0;i<5;i++){
+							if(i<x.getValutazione()){%><i class="fa fa-star" aria-hidden="true"></i><%}
+							else{%><i class="fa fa-star-o" aria-hidden="true"></i><%}
+							}
+							%>
+							</div>
+						</div>
+					</div>
+					<!-- /.VOTAZIONE -->
 				</div>
 			</div>
 			
