@@ -58,7 +58,7 @@
 						<span class="fa fa-arrow-right">&nbsp;</span> Inserisci Gioco
 					</a></li>
 					<li><a class="" href="/oop17/ModificaGioco">
-						<span class="fa fa-arrow-right">&nbsp;</span> Modifica Gioco
+						<span class="fa fa-arrow-right">&nbsp;</span> Rimozione Gioco
 					</a></li>
 				</ul>
 			</li>
