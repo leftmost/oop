@@ -5,19 +5,13 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import Model.Gioco;
 import Model.Utente;
 import Model.DAO.Concrete.GiocoDAO;
@@ -35,88 +29,87 @@ import Model.DAO.Interface.UtenteDAOint;
 @WebServlet("/Play")
 public class Play extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	GiocoDAOint giocoDAO;
+	RecensioneDAOint recensioneDAO;
+	TimelineDAOint timelineDAO;
+	UtenteDAOint utenteDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public Play() {
 		super();
-		// TODO Auto-generated constructor stub
+		giocoDAO = new GiocoDAO();
+		recensioneDAO = new RecensioneDAO();
+		timelineDAO = new TimelineDAO();
+		utenteDAO = new UtenteDAO();
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
 
 	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-
-	/**
+	 * Metodo che consente di visualizzare il gioco e le relative recensioni
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		///Gestione sessione
+		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
-		
+
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		//Frame-public
-		Utente utente = (Utente) request.getSession().getAttribute("login");
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("tipologia",utente.getTipologia());
+		request.setAttribute("utente",utente);
 		request.setAttribute("active","Play");
 		//.Frame
 		
+		//set titolo del gioco selezionato
 		request.setAttribute("titolo",request.getParameter("Gioco"));
 		
-		GiocoDAOint play = new GiocoDAO();
+		
 		try {
-			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
-			ArrayList<Model.Recensione> recensioni = play.recensioniGioco(gioco);
-			
+			//ricerca del gioco
+			Gioco gioco = giocoDAO.ricercaGioco(request.getParameter("Gioco"));
+			//lista recensioni gioco
+			ArrayList<Model.Recensione> recensioni = giocoDAO.recensioniGioco(gioco);
+			//set recensioni
 			request.setAttribute("recensioni",recensioni);
 			
-			RecensioneDAOint recensioneDAO = new RecensioneDAO();
+			//lista recensioni da approvare
 			ArrayList<Model.Recensione> daApprovare =recensioneDAO.daApprovareGioco(request.getParameter("Gioco"));
 			
 			for(Model.Recensione x: daApprovare){
-				System.out.println(x);
+				//se l'utente ha una recensione da approvare non può inviarene un'altra
 				if(x.getUtente_username().equals(utente.getUsername())) {
+					//disattiva form inserimento
 					request.setAttribute("disattiva","on");
 				}
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Play.jsp");
+		//Caricamento template
+		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/Play.jsp");
 		rd.forward(request, response);
 
 	}
 
 	/**
+	 * Metodo che consente di effettuare una sessione di gioco
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//sessione corretta
-		HttpSession session = request.getSession(false);
-		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
-		Utente utente = (Utente) session.getAttribute("login");
-		
-		GiocoDAOint play = new GiocoDAO();
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
+
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		try {
-			Gioco gioco = play.ricercaGioco(request.getParameter("Gioco"));
-			System.out.println(gioco);
-			request.setAttribute("recensioni",play.recensioniGioco(gioco));
+			//ricerca gioco
+			Gioco gioco = giocoDAO.ricercaGioco(request.getParameter("Gioco"));
+			//set recensioni 
+			request.setAttribute("recensioni",giocoDAO.recensioniGioco(gioco));
 		} catch (SQLException e) {
 			System.out.println("Errore gioco");
 		}
@@ -124,38 +117,40 @@ public class Play extends HttpServlet {
 
 		//random vittoria
 		boolean vittoria = Math.random() < 0.5;
+		//set notifica vittoria
 		request.setAttribute("vittoria",vittoria);
 		//if vittoria=true aumenta punti 
 		if(vittoria) {
-			TimelineDAOint timeline = new TimelineDAO();
 			
+			// recupera data corrente
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
 
 			String oraCorrente= dateFormat.format(date);
 			String oraUtente = dateFormat.format(utente.getTimeline().lastExp().getData());
 			
-			//confronta la data di oggi con l'ultima dell'utente
-			// se le date coincidono aggiorna l'esperienza
+			//confronta la data corrente con l'ultima dell'utente
+			// se le date coincidono aggiorna l'esperienza odierna
 			if(oraCorrente.equals(oraUtente)){
 				try {
-					timeline.aumentaExp(utente.getUsername(),10);
+					//aumenta di 10 exp alla data odierna
+					timelineDAO.aumentaExp(utente.getUsername(),10);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else{
 				try {
-					timeline.aggiornaTimeline(utente);
+					//aggiungi alla timeline la data odierna e l'exp conquistata 
+					timelineDAO.aggiungiTimeline(utente,10);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 			
-			UtenteDAOint aggiornaUtente = new UtenteDAO();
 			try {
-				Utente nuovoUtente = aggiornaUtente.ricercaUser(utente.getUsername());
-				session.setAttribute("login", nuovoUtente);
+				//recupero utente dal db
+				utente = utenteDAO.ricercaUser(utente.getUsername());
+				request.getSession().setAttribute("login", utente);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

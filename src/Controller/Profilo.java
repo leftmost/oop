@@ -2,17 +2,13 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
@@ -23,58 +19,49 @@ import Model.DAO.Interface.UtenteDAOint;
 @WebServlet("/Profilo")
 public class Profilo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	UtenteDAOint utenteDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public Profilo() {
 		super();
-		// TODO Auto-generated constructor stub
+		utenteDAO=new UtenteDAO();
 	}
 
 	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-
-	/**
+	 * Metodo che visualizza l'anagrafica utente
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		//Frame-public
-		Utente utente = (Utente) request.getSession().getAttribute("login");
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("tipologia",utente.getTipologia());
+		request.setAttribute("utente",utente);
 		request.setAttribute("active","Profilo");
 		//.Frame
-		
-		//set parametri Profilo
-		request.setAttribute("cognome",utente.getCognome());
 
-		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Profilo.jsp");
+		//Caricamento template
+		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/Profilo.jsp");
 		rd.forward(request, response);
+
 	}
 
 
 	/**
+	 * Metodo che modifica anagrafica utente
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @param nome utente
+	 * @param cognome utente
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
 		//ricezione parametri
 		String nome=request.getParameter("nome");
@@ -82,15 +69,14 @@ public class Profilo extends HttpServlet {
 
 		//modifica utente
 		HttpSession session = request.getSession();
-		Utente utente=(Utente) session.getAttribute("login");
+		utente=(Utente) session.getAttribute("login");
 		utente.setNome(nome);
 		utente.setCognome(cognome);
 		session.setAttribute("login", utente);
 
-		//salvataggio db
-		UtenteDAOint salvaModifiche=new UtenteDAO();
+		//salvataggio modifiche
 		try {
-			salvaModifiche.aggAnagraficaUser(utente);
+			utenteDAO.aggAnagraficaUser(utente);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -5,15 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
@@ -24,34 +21,37 @@ import Model.DAO.Interface.UtenteDAOint;
 @WebServlet("/RimozioneAccount")
 public class RimozioneAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	private UtenteDAOint utenteDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public RimozioneAccount() {
 		super();
-		// TODO Auto-generated constructor stub
+		utenteDAO = new UtenteDAO();
 	}
 
 	/**
+	 * Metodo che visualizza la pagina rimozione utente
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		//Frame-public
-		Utente utente = (Utente) request.getSession().getAttribute("login");
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("tipologia",utente.getTipologia());
-		request.setAttribute("active","Home");
+		request.setAttribute("utente",utente);
+		request.setAttribute("active","Rimozione Account");
 		//.Frame
 
-		UtenteDAOint utenteDAO = new UtenteDAO();
 		try {
-			
+			//ricerca lista utenti e moderatori
 			ArrayList<Utente> utentiANDmoderatori=utenteDAO.listaUtentieModeratori();
+			
 			//Ordina per tipologia
 			Collections.sort(utentiANDmoderatori,new Comparator<Utente>(){
 				@Override
@@ -61,32 +61,38 @@ public class RimozioneAccount extends HttpServlet {
 	
 		        }
 			});
+			//.Ordinamento
 			
+			//set lista utenti e moderatori
 			request.setAttribute("utentiANDmoderatori",utentiANDmoderatori);
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//RimozioneAccount.jsp
+		//Caricamento template
 		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/RimozioneAccount.jsp");
 		rd.forward(request, response);
 	}
 
 	/**
+	 * Metodo che rimuove account dal sistema
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @param username
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 		
-		Utente utente = new Utente(request.getParameter("username"));
-		UtenteDAOint utenteDAO = new UtenteDAO();
+		//creazione utente
+		utente = new Utente(request.getParameter("username"));
 		try {
+			//rimozione utente
 			utenteDAO.rimozioneUser(utente);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		doGet(request, response);
 	}
 

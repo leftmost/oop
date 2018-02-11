@@ -6,15 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import Model.Gioco;
 import Model.Recensione;
 import Model.DAO.Interface.RecensioneDAOint;
 import Model.Database.Database;
 
 public class RecensioneDAO implements RecensioneDAOint{
-
-
 
 	private static final String
 	INSERIMENTO = "INSERT INTO Recensione(utente_username, gioco_id, voto, recensione) VALUES (?, ?, ?, ?);";
@@ -37,7 +33,6 @@ public class RecensioneDAO implements RecensioneDAOint{
 	private static final String
 	ELIMINA = "DELETE FROM Recensione WHERE Utente_Username =? AND Gioco_id=? ;";
 
-	//inserimento nuova recensione
 	@Override
 	public int inserisciRecensione(Recensione recensione) throws SQLException {
 
@@ -55,7 +50,6 @@ public class RecensioneDAO implements RecensioneDAOint{
 		return result;
 	}
 
-	//approvazione recensione
 	@Override
 	public int approvaRecensione(String utente,int idGioco) throws SQLException {
 
@@ -73,8 +67,6 @@ public class RecensioneDAO implements RecensioneDAOint{
 		return result;
 	}
 
-
-	//modifica voto e recensione
 	@Override
 	public int modificaRecensione(Recensione recensione) throws SQLException {
 
@@ -141,8 +133,6 @@ public class RecensioneDAO implements RecensioneDAOint{
 		return recensioni;
 	}
 
-
-	//eliminazione gioco tramite id
 	@Override
 	public int eliminaRecensioneUtente(Recensione recensione) throws SQLException{
 		Connection connection = Database.openConnection();

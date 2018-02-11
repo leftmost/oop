@@ -2,18 +2,12 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
@@ -24,16 +18,17 @@ import Model.DAO.Interface.UtenteDAOint;
 @WebServlet("/gestioneModeratore")
 public class gestioneModeratore extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	private 	UtenteDAOint utenteDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public gestioneModeratore() {
 		super();
-		// TODO Auto-generated constructor stub
+		utenteDAO = new UtenteDAO();
 	}
 
-	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,73 +37,73 @@ public class gestioneModeratore extends HttpServlet {
 		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		//Frame-public
-		Utente utente = (Utente) request.getSession().getAttribute("login");
 		request.setAttribute("utente",utente);
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("tipologia",utente.getTipologia());
 		request.setAttribute("active","Gestione Moderatori");
 		//.Frame
-		//set parametri
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("tipologia",utente.getTipologia());
 		
-		UtenteDAOint utenteDAO = new UtenteDAO();
+		//set lista moderatori e utenti
 		try {
 			request.setAttribute("UteMod",utenteDAO.listaUtentieModeratori());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
 		}
 
-		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/gestioneModeratori.jsp");
+		//Caricamento template
+		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/gestioneModeratori.jsp");
 		rd.forward(request, response);
 
 	}
 
 	/**
+	 * Metodo che promuove gli utenti e retrocede i moderatori
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @param promuovi
+	 * @param retrocedi
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
-		Utente utente = (Utente) request.getSession().getAttribute("login");
+		utente = (Utente) request.getSession().getAttribute("login");
 		
-		UtenteDAOint utenteDAO = new UtenteDAO();
 		if(request.getParameter("promuovi")==null){
-			
+			//retrocessione
 			try {
+				//ricerca utente da retrocedere
 				Utente utenteDaRetrocedere = utenteDAO.ricercaUser(request.getParameter("username"));
 				if(utenteDaRetrocedere.getTipologia().equals("Utente")) {
+					//impossibile retrocedere un utente
 					request.setAttribute("mexags",false);
 				}else {
+				//retrocessione moderatore
 				utenteDAO.retrocediModeratore(utenteDaRetrocedere);
 				request.setAttribute("mexag",false);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
 		}
 		else {
+			//promozione
 			try {
+				//ricerca utente da promuovere
 				Utente utenteDaPromuovere = utenteDAO.ricercaUser(request.getParameter("username"));
 				if(utenteDaPromuovere.getTipologia().equals("Moderatore")) {
+					//impossibile promuovere un moderatore
 					request.setAttribute("mexags",true);
 				}else {
+				//promozione utente
 				utenteDAO.nominaModeratore(utenteDaPromuovere);
 				request.setAttribute("mexag",true);
 				}
 			} catch (SQLException e) {
-				
 				e.printStackTrace();
 			}
 		}
 		
 		doGet(request, response);
 	}
-
 }

@@ -77,7 +77,6 @@
 						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
 					</div>
 				</div>
-				
 			<%	
 			}}
 			%>
@@ -91,7 +90,6 @@
 						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
 					</div>
 				</div>
-				
 			<%
 			}else{%>
 				<div class="form-group">
@@ -106,7 +104,6 @@
 
 		<!--BODY-->
 		<div class="row">
-			
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -154,8 +151,6 @@
 	</div>
 	<!--/.row-->
 	
-	
-
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>

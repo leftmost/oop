@@ -3,16 +3,11 @@ package Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import Model.Gioco;
 import Model.Utente;
 import Model.DAO.Concrete.GiocoDAO;
@@ -26,71 +21,59 @@ import Model.DAO.Interface.RecensioneDAOint;
 @WebServlet("/Recensione")
 public class Recensione extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	private RecensioneDAOint recensioneDAO;
+	private GiocoDAOint giocoDAO;
+	private Model.Recensione nuovoRecensione;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public Recensione() {
 		super();
-		// TODO Auto-generated constructor stub
+		recensioneDAO = new RecensioneDAO();
+		giocoDAO = new GiocoDAO();
+		
 	}
 
 	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-
-
-
-	/**
+	 * Metodo che memorizza la recensione inviata dall'utente
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//sessione corretta
-		HttpSession session = request.getSession(false);
-		if(session.getAttribute("login")==null) {response.sendRedirect("/oop17/Logout"); return;}
-		Utente utente = (Utente) session.getAttribute("login");
+		//Gestione sessione
+		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
-		String username_utente = utente.getUsername(); //username utente
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
+		//recupere parametri form
+		String username_utente = utente.getUsername(); //username
 		String testo= request.getParameter("recensione"); // testo
 		int rating= Integer.parseInt(request.getParameter("rating")); // valutazione
 		
-		//voto TODO
-
-
-		RecensioneDAOint recensioneDAO = new RecensioneDAO();
-		GiocoDAOint giocoDAO = new GiocoDAO();
 
 		try {
+			//ricerca gioco
 			Gioco gioco = giocoDAO.ricercaGioco(request.getParameter("Gioco"));
 			int idGioco = gioco.getId(); // id gioco
-
+			
+			//lista recensioni approvate di un gioco
 			ArrayList<Model.Recensione> listaApprovate= recensioneDAO.approvateGioco(request.getParameter("Gioco"));
 			for(Model.Recensione x:listaApprovate){
-				
+				//se l'utente ha gia scritto una recensione, quella vecchia viene eliminata
 				if(x.getGioco_id()==idGioco &&  x.getUtente_username().equals(username_utente)) {
 					recensioneDAO.eliminaRecensioneUtente(x);
 				}
 			}
 
-			Model.Recensione nuovoRecensione = new Model.Recensione(username_utente,idGioco,rating,testo);
-
-			RecensioneDAOint recensione = new RecensioneDAO();
-			recensione.inserisciRecensione(nuovoRecensione);
+			nuovoRecensione = new Model.Recensione(username_utente,idGioco,rating,testo);
+			//salva nuova recensione
+			recensioneDAO.inserisciRecensione(nuovoRecensione);
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
 
 		response.sendRedirect("/oop17/Play?Gioco="+request.getParameter("Gioco"));
 	}

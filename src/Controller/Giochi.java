@@ -3,21 +3,15 @@ package Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import Model.Gioco;
 import Model.Utente;
 import Model.DAO.Concrete.GiocoDAO;
-import Model.DAO.Concrete.RecensioneDAO;
 import Model.DAO.Interface.*;
 
 /**
@@ -26,28 +20,17 @@ import Model.DAO.Interface.*;
 @WebServlet("/Giochi")
 public class Giochi extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	private GiocoDAOint giochiDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public Giochi() {
 		super();
-		// TODO Auto-generated constructor stub
+		giochiDAO = new GiocoDAO();
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,37 +39,25 @@ public class Giochi extends HttpServlet {
 		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		//Frame-public
-		Utente utente = (Utente) request.getSession().getAttribute("login");
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("tipologia",utente.getTipologia());
+		request.setAttribute("utente",utente);
 		request.setAttribute("active","Giochi");
-		
+		//.Frame
 
-
-
-		GiocoDAOint giochi = new GiocoDAO();
+		//recupero lista giochi
 		try {
-			ArrayList<Gioco> giocoDAO = giochi.tuttiGiochi();
-			request.setAttribute("giocoDAO",giocoDAO);
+			ArrayList<Gioco> listaGiochi = giochiDAO.tuttiGiochi();
+			request.setAttribute("listaGiochi",listaGiochi);
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		}
 
-		//Carica Home.jsp
-		ServletContext sc = request.getSession().getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/Giochi.jsp");
+		//Caricamento template
+		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/Giochi.jsp");
 		rd.forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

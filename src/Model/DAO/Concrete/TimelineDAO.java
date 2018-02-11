@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-
 import Model.Esperienza;
 import Model.Timeline;
 import Model.Utente;
@@ -30,7 +28,6 @@ public class TimelineDAO implements TimelineDAOint {
 	INSERT = "INSERT INTO Timeline (utente_username, data, exp) VALUES (?,Date(NOW()),?);";
 
 
-	//ricerca Timeline
 	@Override
 	public Timeline ricercaTimeline(String username) throws SQLException {
 		Timeline timeline = new Timeline();
@@ -52,7 +49,6 @@ public class TimelineDAO implements TimelineDAOint {
 	}
 
 
-	//aumenta l'esperienza dell'user
 	@Override
 	public int aumentaExp(String username,int exp) throws SQLException {
 		Connection connection = Database.openConnection();
@@ -67,14 +63,12 @@ public class TimelineDAO implements TimelineDAOint {
 		return result;
 	}
 
-	//aumenta l'esperienza dell'user
 	@Override
 	public int aumentaLiv(String username,int exp) throws SQLException {
 		Connection connection = Database.openConnection();
 		PreparedStatement ps = connection.prepareStatement(AUM_LIV);
 		ps.setInt(1, exp);
 		ps.setString(2, username);
-
 
 		int result = ps.executeUpdate();
 
@@ -84,13 +78,12 @@ public class TimelineDAO implements TimelineDAOint {
 	}
 
 
-	//Inserisce una nuova riga nella tabella della Timeline
 	@Override
-	public int aggiornaTimeline(Utente utente) throws SQLException {
+	public int aggiungiTimeline(Utente utente, int exp) throws SQLException {
 		Connection connection = Database.openConnection();
 		PreparedStatement ps = connection.prepareStatement(INSERT);
 		ps.setString(1, utente.getUsername());
-		ps.setInt(2, utente.getEsperienza()+10);
+		ps.setInt(2, utente.getEsperienza()+exp);
 
 		int result = ps.executeUpdate();
 
@@ -106,7 +99,6 @@ public class TimelineDAO implements TimelineDAOint {
 		PreparedStatement ps = connection.prepareStatement(RET_LIV);
 		ps.setInt(1, exp);
 		ps.setString(2, username);
-
 
 		int result = ps.executeUpdate();
 

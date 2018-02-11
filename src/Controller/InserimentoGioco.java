@@ -2,15 +2,12 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import Model.Gioco;
 import Model.Utente;
 import Model.DAO.Concrete.GiocoDAO;
@@ -22,28 +19,17 @@ import Model.DAO.Interface.GiocoDAOint;
 @WebServlet("/InserimentoGioco")
 public class InserimentoGioco extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utente utente;
+	private GiocoDAOint giocoDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public InserimentoGioco() {
 		super();
-		// TODO Auto-generated constructor stub
+		giocoDAO = new GiocoDAO();
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -52,34 +38,37 @@ public class InserimentoGioco extends HttpServlet {
 		//Gestione sessione
 		if(!GestoreSessione.sessione(request, response)){response.sendRedirect("/oop17/Logout"); return;}
 
+		//recupero utente in sessione
+		utente = (Utente) request.getSession().getAttribute("login");
+
 		//Frame-public
-		Utente utente = (Utente) request.getSession().getAttribute("login");
-		request.setAttribute("username",utente.getUsername());
-		request.setAttribute("nome",utente.getNome());
-		request.setAttribute("tipologia",utente.getTipologia());
+		request.setAttribute("utente",utente);
 		request.setAttribute("active","Gestione Giochi");
 		//.Frame
 
-		//inserimentoGioco.jsp
+		//Caricamento template
 		RequestDispatcher rd = request.getSession().getServletContext().getRequestDispatcher("/inserimentoGioco.jsp");
 		rd.forward(request, response);
+
 	}
 
 	/**
+	 * Metodo che consente l'inserimento di un gioco
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @param titolo
+	 * @param id gioco
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//ricezione parametri form
 		String titolo = request.getParameter("nuovoGioco");
 		Gioco game = new Gioco(titolo);
-		GiocoDAOint gioco = new GiocoDAO();
-		System.out.println(game);
+
 		try {
-			gioco.inserisciGioco(game);
-			boolean bool = true;
-			request.setAttribute("mex",bool);
+			giocoDAO.inserisciGioco(game);
+			request.setAttribute("mex",true);
 		} catch (SQLException e) {
-			boolean bool = false;
-			request.setAttribute("mex",bool);
+			request.setAttribute("mex",false);
 			e.printStackTrace();
 		}
 

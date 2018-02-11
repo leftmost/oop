@@ -70,12 +70,12 @@
 								<fieldset>
 									<div class="form-group">
 										<input class="form-control" name="nome" type="text" required
-											value="<%=request.getAttribute("nome")%>">
+											value="<%=nome%>">
 									</div>
 
 									<div class="form-group">
 										<input class="form-control" name="cognome" type="text"
-											required value="<%=request.getAttribute("cognome")%>">
+											required value="<%=cognome%>">
 									</div>
 
 									<div class="form-group text-center">
@@ -88,18 +88,17 @@
 					</div>
 				</div>
 				<%
-										if (request.getAttribute("modifica") != null) {
-									%>
-									<div class="form-group">
-										<div id='delete' class="alert bg-success" role="alert">
-											<em class="fa fa-lg fa-warning">&nbsp;</em> Salvataggio
-											effettuato <a href="#" class="pull-right"><em
-												class="fa fa-lg fa-close"></em></a>
-										</div>
-									</div>
-									<%
-										}
-									%>
+					if (request.getAttribute("modifica") != null) {
+				%>
+				<div class="form-group">
+					<div id='delete' class="alert bg-success" role="alert">
+						<em class="fa fa-lg fa-warning">&nbsp;</em> Salvataggio effettuato
+						<a href="#" class="pull-right"><em class="fa fa-lg fa-close"></em></a>
+					</div>
+				</div>
+				<%
+					}
+				%>
 			</div>
 			<!--/.anagrafica-->
 		</div>

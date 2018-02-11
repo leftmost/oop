@@ -3,6 +3,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.Gioco"%>
 <%@page import="Model.DAO.Interface.GiocoDAOint"%>
+<%
+	ArrayList<Gioco> listaGiochi = (ArrayList<Gioco>) request.getAttribute("listaGiochi");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,12 +67,9 @@
 		<!--Lista Giochi-->
 		<!--row-->
 		<div class="row">
-		
 					<%
-						ArrayList<Gioco> lista = (ArrayList<Gioco>) request.getAttribute("giocoDAO");
-						for (Gioco x : lista) {
+						for (Gioco x : listaGiochi) {
 					%>
-					
 			<div class="col-xs-6 col-md-3">
 				<div class="panel panel-default" style="cursor: pointer;" onclick="window.location='/oop17/Play?Gioco=<% out.print(x.getTitolo());%>'">
 					<div class="panel-body easypiechart-panel">
