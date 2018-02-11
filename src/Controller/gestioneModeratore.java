@@ -33,19 +33,7 @@ public class gestioneModeratore extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
+	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,6 +44,7 @@ public class gestioneModeratore extends HttpServlet {
 
 		//Frame-public
 		Utente utente = (Utente) request.getSession().getAttribute("login");
+		request.setAttribute("utente",utente);
 		request.setAttribute("username",utente.getUsername());
 		request.setAttribute("nome",utente.getNome());
 		request.setAttribute("tipologia",utente.getTipologia());

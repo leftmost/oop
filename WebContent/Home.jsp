@@ -75,9 +75,9 @@
 										<h4 class="timeline-title">Anagrafica</h4>
 									</div>
 									<div class="timeline-body">
-										<p>Username: <b><%=request.getAttribute("username")%></b></p>
-										<p>Nome: <b><%=request.getAttribute("nome")%></b></p>
-										<p>Cognome: <b><%=request.getAttribute("cognome")%></b></p>
+										<p>Username: <b><%=username%></b></p>
+										<p>Nome: <b><%=nome%></b></p>
+										<p>Cognome: <b><%=cognome%></b></p>
 									</div>
 								</div>
 							</li>
@@ -88,10 +88,10 @@
 								<div class="timeline-panel">
 									<div class="timeline-heading">
 										<h4 class="timeline-title">Livello 
-										<%out.print((int)request.getAttribute("esperienza")/100);%></h4>
+										<%=trofei%></h4>
 									</div>
 									<div class="timeline-body">
-										<p><b><%=request.getAttribute("esperienza")%></b> XP</p>
+										<p><b><%=exp%></b> XP</p>
 									</div>
 								</div>
 							</li>
@@ -104,7 +104,7 @@
 										<h4 class="timeline-title">Trofei</h4>
 									</div>
 									<div class="timeline-body">
-									<%int trofei=(int)request.getAttribute("esperienza")/100; for(int i=0;i<trofei;i++){
+									<%for(int i=0;i<trofei;i++){
 										out.print("Trofeo "+i+"<br>");
 									}%>
 									</div>

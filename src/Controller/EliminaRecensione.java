@@ -17,35 +17,40 @@ import Model.DAO.Interface.RecensioneDAOint;
  */
 @WebServlet("/EliminaRecensione")
 public class EliminaRecensione extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	private Model.Recensione recensione;
+	private RecensioneDAOint recensioneDAO;
        
     /**
+     * Costruttore
      * @see HttpServlet#HttpServlet()
      */
     public EliminaRecensione() {
         super();
-        // TODO Auto-generated constructor stub
+        recensioneDAO=new RecensioneDAO();
     }
 
 	/**
+	 * Metodo che elimina una recensione
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//Ricezione parametri da form
 		String utente=request.getParameter("utente");
 		int gioco =Integer.parseInt(request.getParameter("gioco"));
 		
-		Model.Recensione recensione = new Model.Recensione(utente,gioco);
-		System.out.println(recensione);
-		RecensioneDAOint recensioneDAO = new RecensioneDAO();
+		recensione = new Model.Recensione(utente,gioco);
+		
 		try {
 			recensioneDAO.eliminaRecensioneUtente(recensione);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		//reindirizzamento
 		response.sendRedirect("/oop17/gestioneRecensioni");
-		
 	}
 
 }
