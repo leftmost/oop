@@ -2,9 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
@@ -24,35 +21,23 @@ import Model.DAO.Interface.UtenteDAOint;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Login() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	Utente utente;
+	UtenteDAOint utenteDAO;
 
 	/**
-	 * @see Servlet#init(ServletConfig)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
+	public Login() {
+		super();
+		utenteDAO=new UtenteDAO();
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//Carica Login.jsp
+
+		//Carica template
 		ServletContext sc = request.getSession().getServletContext();
 		RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
 		rd.forward(request, response);
@@ -67,29 +52,30 @@ public class Login extends HttpServlet {
 		String password=request.getParameter("password");
 
 		// interfaccia DAO
-		UtenteDAOint utentei=new UtenteDAO();
+
 		try {
-			
+
 			//crea utente dalla ricerca
-			Utente utente= utentei.ricercaUser(username);
+			utente= utenteDAO.ricercaUser(username);
 			//controllo esistenza utente
 			if(utente==null){
 				//set errore utente
 				request.setAttribute("ErrorUser","has-error");
-				//carico login.jsp
+				
+				//Carico Template
 				ServletContext sc = request.getSession().getServletContext();
 				RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
 				rd.forward(request, response);
 				return;
 			}
-			
-			//controllo correttezza password
+
 			if(!password.equals(utente.getPassword())){
 				//set username corretto
 				request.setAttribute("UserInsert",username);
 				//set errore password
 				request.setAttribute("ErrorPassword","has-error");
-				//carico  login.jsp
+
+				//Carico Template
 				ServletContext sc = request.getSession().getServletContext();
 				RequestDispatcher rd = sc.getRequestDispatcher("/Login.jsp");
 				rd.forward(request, response);
@@ -98,11 +84,11 @@ public class Login extends HttpServlet {
 			//Inizio sessione
 			HttpSession session = request.getSession(true);
 			session.setAttribute("login", utente);
+
 			//redirect alla home
 			response.sendRedirect("/oop17/Home");
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

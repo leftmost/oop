@@ -2,16 +2,13 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import Model.Utente;
 import Model.DAO.Concrete.UtenteDAO;
 import Model.DAO.Interface.UtenteDAOint;
@@ -28,28 +25,14 @@ public class SignUp extends HttpServlet {
 	 */
 	public SignUp() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Carica Login.jsp
+		//Carica template
 		ServletContext sc = request.getSession().getServletContext();
 		RequestDispatcher rd = sc.getRequestDispatcher("/SignUp.jsp");
 		rd.forward(request, response);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Feb 09, 2018 alle 19:19
+-- Creato il: Feb 12, 2018 alle 00:02
 -- Versione del server: 5.6.38
 -- Versione PHP: 5.6.32
 
@@ -40,14 +40,14 @@ CREATE TABLE `gioco` (
 --
 
 INSERT INTO `gioco` (`id`, `Titolo`, `Valutazione`) VALUES
-(2, 'Cirulla', 5),
+(2, 'Cirulla', 3),
 (3, 'Hearts', 0),
-(4, 'Scopa', 0),
-(5, 'Briscola', 5),
-(6, 'Bestia', 5),
-(9, 'Solitario', 5),
-(10, 'Teresina', 0),
-(11, 'Poker', 0);
+(4, 'Scopa', 2),
+(5, 'Briscola', 4),
+(6, 'Bestia', 3),
+(9, 'Solitario', 2),
+(10, 'Teresina', 5),
+(12, 'Poker', 3);
 
 -- --------------------------------------------------------
 
@@ -69,11 +69,19 @@ CREATE TABLE `recensione` (
 --
 
 INSERT INTO `recensione` (`Utente_Username`, `Gioco_id`, `Approvazione`, `Voto`, `Recensione`) VALUES
-('giulia', 9, 1, 5, 'Complimenti! :)'),
-('loreand', 2, 1, 5, 'cirulla'),
-('loreand', 5, 1, 5, 'ok2'),
-('loreand', 6, 1, 5, 'ok2'),
-('loreand', 9, 1, 5, 'prova');
+('andcant', 6, 1, 3, 'Complimenti!'),
+('loreand', 6, 1, 4, 'Ottimo!'),
+('lovic', 5, 1, 5, 'Perfetto'),
+('lovic', 6, 1, 3, 'Non male'),
+('lovic', 10, 1, 5, 'Perfetto'),
+('lovic', 12, 1, 3, ''),
+('luca34', 2, 1, 5, 'Bello'),
+('luca34', 5, 1, 3, 'Ottimo!'),
+('luca34', 9, 1, 2, 'Da migliorare'),
+('luca34', 10, 1, 5, 'Stupendo'),
+('matteo89', 2, 1, 1, 'Pessimo'),
+('matteo89', 4, 1, 2, 'Insomma...'),
+('matteo89', 6, 1, 2, 'Migliorabile');
 
 --
 -- Trigger `recensione`
@@ -109,9 +117,14 @@ CREATE TABLE `timeline` (
 
 INSERT INTO `timeline` (`Utente_Username`, `Data`, `Exp`) VALUES
 ('andcant', '2018-02-08', 0),
-('giulia', '2018-02-08', 400),
+('andcant', '2018-02-11', 20),
 ('loreand', '2018-02-08', 100),
-('loreand', '2018-02-09', 260);
+('loreand', '2018-02-09', 260),
+('loreand', '2018-02-10', 270),
+('loreand', '2018-02-11', 350),
+('lovic', '2018-02-09', 300),
+('luca34', '2018-02-11', 210),
+('matteo89', '2018-02-11', 0);
 
 -- --------------------------------------------------------
 
@@ -134,9 +147,11 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`Username`, `Email`, `Password`, `Nome`, `Cognome`, `Tipologia`) VALUES
-('andcant', 'andcant@lib.it', '1234', 'and', 'cant', 'Admin'),
-('giulia', 'giulia@univaq.it', '1234', 'Giulia', 'Ionannone', 'Utente'),
-('loreand', 'lor@and.it', '1234', 'lor', 'and', 'Admin');
+('andcant', 'andcant@lib.it', '1234', 'Andrea', 'Cantagallo', 'Admin'),
+('loreand', 'lor@and.it', '1234', 'Lorenzo', 'Andreoli', 'Admin'),
+('lovic', 'papaleo@univaq.it', '1234', 'Alessandro', 'Papaleo', 'Utente'),
+('luca34', 'verdi@univaq.it', '1234', 'Luca', 'Verdi', 'Moderatore'),
+('matteo89', 'rossi@univaq.it', '1234', 'Matteo', 'Rossi', 'Utente');
 
 --
 -- Trigger `utente`
@@ -157,7 +172,8 @@ DELIMITER ;
 -- Indici per le tabelle `gioco`
 --
 ALTER TABLE `gioco`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Titolo_UNIQUE` (`Titolo`);
 
 --
 -- Indici per le tabelle `recensione`
@@ -188,7 +204,7 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `gioco`
 --
 ALTER TABLE `gioco`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Limiti per le tabelle scaricate
