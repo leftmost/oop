@@ -1,4 +1,4 @@
-# OOP Project
+# OOP Project 2016
 
 The following project aims to create a gaming platform that involves users to play in order to gain experience points and new levels of play.
 An online gaming platform is therefore made up of users, games and services. The purpose of this project is to realize this platform in order to guarantee a complete gaming experience related to a single game by a user. This experience is inclusive of various roles and various services related to the player.
@@ -15,9 +15,9 @@ An online gaming platform is therefore made up of users, games and services. The
 
 Run Web Server
 
-Install local database from /sql/oop.mssql
+Install local database from Database/sql/oop.mssql
 
-Import this repository into Eclpise and run on server Tomcat Apache
+Import this repository into Eclpise and run Java/src on server Tomcat Apache
 
 Launch project from browser: 
 ```
